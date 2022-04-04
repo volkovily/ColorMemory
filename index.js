@@ -1,3 +1,18 @@
+let inPlay = false;
+
+function startGame() {
+    inPlay = true;
+    document.getElementById("startBtn").classList.add("hidden");
+    document.getElementById("stopBtn").classList.remove("hidden");
+  } 
+  
+  function stopGame() {
+    inPlay = false;
+    document.getElementById("startBtn").classList.remove("hidden");
+    document.getElementById("stopBtn").classList.add("hidden");
+  }
+
+
 function rangeSlide() {
     const pink = document.getElementById('pink')
     const orange = document.getElementById('orange')

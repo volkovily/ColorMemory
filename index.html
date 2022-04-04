@@ -11,7 +11,9 @@
 <body>
     <h2 class='center'>Color Memory</h2>
 
-<button class='center_button'>Start</button>
+<button id='startBtn' class='center_button' onclick='startGame()'>Start</button>
+<button id="stopBtn" class='center_button hidden' onclick="stopGame()"> Stop</button>
+
 <input class='center_range' type="range" id='myRange' min="4" max="6" value="4" oninput='rangeSlide()'>
 
     <div class='center'>
