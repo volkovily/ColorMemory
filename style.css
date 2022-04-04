@@ -1,0 +1,32 @@
+.row {
+ text-align: center;
+}
+
+.tile    {
+display: inline-block;
+width: 100px;
+height: 100px;
+background-color: rgb(202, 202, 202);
+cursor: pointer;
+    
+}
+.tile:hover {
+box-shadow: inset 0px 0px 100px 100px rgba(255, 255, 255, 0.3);
+
+}
+
+.blue{
+    background-color: blue;
+}
+
+.red{
+    background-color: red;
+}
+
+.green{
+    background-color: green;
+}
+
+.yellow{
+    background-color: yellow;
+}
