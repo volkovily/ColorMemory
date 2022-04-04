@@ -41,15 +41,15 @@ box-shadow: inset 0px 0px 100px 100px rgba(255, 255, 255, 0.3);
     background-color: green;
 }
 
-.orange{
-    background-color: orange;
+.yellow{
+    background-color: rgb(255, 234, 0);
 }
 
 .pink{
     background-color: pink;
 }
-.yellow{
-    background-color: yellow;
+.orange{
+    background-color: orange;
 }
 
 .hidden{

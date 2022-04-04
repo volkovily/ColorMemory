@@ -1,6 +1,6 @@
 function rangeSlide() {
     const pink = document.getElementById('pink')
-    const yellow = document.getElementById('yellow')
+    const orange = document.getElementById('orange')
     const range = document.getElementById('myRange').value
     
     if (range >= 5 ) {
@@ -10,8 +10,8 @@ function rangeSlide() {
     }
 
     if (range >= 6) {
-        yellow.classList.remove("hidden");
+        orange.classList.remove("hidden");
     } else {
-        yellow.classList.add("hidden");
+        orange.classList.add("hidden");
     }
 }
