@@ -1,6 +1,20 @@
-.row {
- text-align: center;
+.center {
+    text-align: center;
 }
+
+.center_button {
+    position: absolute;
+    top: 25%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  .center_range {
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
 
 .tile    {
 display: inline-block;
@@ -27,6 +41,17 @@ box-shadow: inset 0px 0px 100px 100px rgba(255, 255, 255, 0.3);
     background-color: green;
 }
 
+.orange{
+    background-color: orange;
+}
+
+.pink{
+    background-color: pink;
+}
 .yellow{
     background-color: yellow;
+}
+
+.hidden{
+    display: none;
 }
