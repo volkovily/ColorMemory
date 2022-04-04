@@ -15,3 +15,7 @@ function rangeSlide() {
         orange.classList.add("hidden");
     }
 }
+
+function playAudio(sound) {
+    new Audio(sound).play();
+  }

@@ -16,16 +16,18 @@
     transform: translate(-50%, -50%);
   }
 
-.tile    {
+.tile {
 display: inline-block;
 width: 100px;
 height: 100px;
 background-color: rgb(202, 202, 202);
+box-shadow: inset 0px 0px 0px 1px black;
 cursor: pointer;
     
 }
 .tile:hover {
 box-shadow: inset 0px 0px 100px 100px rgba(255, 255, 255, 0.3);
+
 }
 
 
@@ -46,7 +48,7 @@ box-shadow: inset 0px 0px 100px 100px rgba(255, 255, 255, 0.3);
 }
 
 .pink{
-    background-color: pink;
+    background-color: rgb(255, 60, 216);
 }
 .orange{
     background-color: orange;
