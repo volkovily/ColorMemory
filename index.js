@@ -5,7 +5,7 @@ const green = document.querySelector('.green')
 const yellow = document.querySelector('.yellow')
 
 
-sound = function playAudio(sound) {
+function playAudio(sound) {
   new Audio(sound).play();
 }
 
