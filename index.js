@@ -72,7 +72,7 @@ function rangeSlide() {
     const range = document.getElementById('myRange').value
     
     if (range >= 5 ) {
-      tiles.splice(5,1)
+      
         pink.classList.remove("hidden");
         tiles.push(pink)
         console.log(tiles)
