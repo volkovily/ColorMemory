@@ -1,3 +1,7 @@
+.noselect {
+     user-select: none;
+  }
+
 .center {
     text-align: center;
 }

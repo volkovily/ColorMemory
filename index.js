@@ -19,7 +19,7 @@ function startGame() {
     document.getElementById("myRange").classList.remove("hidden");
   }
 
-
+// Range functionality
 function rangeSlide() {
     const pink = document.getElementById('pink')
     const orange = document.getElementById('orange')
