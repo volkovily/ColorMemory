@@ -3,15 +3,19 @@ const blue = document.querySelector('.blue')
 const red = document.querySelector('.red')
 const green = document.querySelector('.green')
 const yellow = document.querySelector('.yellow')
-
+const pink = document.querySelector('.pink')
+const orange = document.querySelector('.orange')
 
 function playAudio(sound) {
   new Audio(sound).play();
 }
 
+const tiles = [blue, red, green, yellow]
+const tilePink = [pink]
+const tileOrange = [orange]
+console.log(tiles)
 
 const getRandomTile = () =>{
-  const tiles = [blue, red, green, yellow]
   return tiles[parseInt(Math.random() * tiles.length)]
 }
 
@@ -35,8 +39,6 @@ const flash = (tile) => {
     }, 700)
   })
 }
-
-
 
 
 const main = async () => {
@@ -70,14 +72,22 @@ function rangeSlide() {
     const range = document.getElementById('myRange').value
     
     if (range >= 5 ) {
+      tiles.splice(5,1)
         pink.classList.remove("hidden");
+        tiles.push(pink)
+        console.log(tiles)
     } else {
+      tiles.splice(4,1)
         pink.classList.add("hidden");
+        
+        console.log(tiles)
     }
 
     if (range >= 6) {
         orange.classList.remove("hidden");
+        tiles.push(orange)
     } else {
+      tiles.splice(5,1)
         orange.classList.add("hidden");
     }
 }
