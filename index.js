@@ -1,15 +1,57 @@
 let inPlay = false;
+const blue = document.querySelector('.blue')
+const red = document.querySelector('.red')
+const green = document.querySelector('.green')
+const yellow = document.querySelector('.yellow')
 
-function playAudio(sound) {
+
+sound = function playAudio(sound) {
   new Audio(sound).play();
 }
 
+
+const getRandomTile = () =>{
+  const tiles = [blue, red, green, yellow]
+  return tiles[parseInt(Math.random() * tiles.length)]
+}
+
+const sequence = [
+ getRandomTile(),
+ getRandomTile(),
+ getRandomTile(),
+ getRandomTile()
+]
+
+const flash = (tile) => {
+  return new Promise((resolve, reject) => {
+    tile.className += ' active'
+    console.log('tick')
+    setTimeout(() => {
+
+      tile.className = tile.className.replace(' active','')
+      setTimeout(() => {
+        resolve();
+      }, 250);
+    }, 700)
+  })
+}
+
+
+
+
+const main = async () => {
+  for(let tile of sequence) {
+    await flash(tile)
+  }
+
+}
 
 function startGame() {
     inPlay = true;
     document.getElementById("startBtn").classList.add("hidden");
     document.getElementById("stopBtn").classList.remove("hidden");
     document.getElementById("myRange").classList.add("hidden");
+    main()
   } 
   
   function stopGame() {
@@ -18,6 +60,8 @@ function startGame() {
     document.getElementById("stopBtn").classList.add("hidden");
     document.getElementById("myRange").classList.remove("hidden");
   }
+
+
 
 // Range functionality
 function rangeSlide() {

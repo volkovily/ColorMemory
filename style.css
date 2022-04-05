@@ -61,3 +61,7 @@ box-shadow: inset 0px 0px 100px 100px rgba(255, 255, 255, 0.3);
 .hidden{
     display: none;
 }
+
+.active{
+    box-shadow: inset 0px 0px 100px 100px rgba(255, 255, 255, 0.4);
+}
