@@ -1,15 +1,22 @@
 let inPlay = false;
 
+function playAudio(sound) {
+  new Audio(sound).play();
+}
+
+
 function startGame() {
     inPlay = true;
     document.getElementById("startBtn").classList.add("hidden");
     document.getElementById("stopBtn").classList.remove("hidden");
+    document.getElementById("myRange").classList.add("hidden");
   } 
   
   function stopGame() {
     inPlay = false;
     document.getElementById("startBtn").classList.remove("hidden");
     document.getElementById("stopBtn").classList.add("hidden");
+    document.getElementById("myRange").classList.remove("hidden");
   }
 
 
@@ -31,6 +38,3 @@ function rangeSlide() {
     }
 }
 
-function playAudio(sound) {
-    new Audio(sound).play();
-  }
