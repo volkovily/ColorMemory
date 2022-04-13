@@ -15,7 +15,7 @@ const tilePink = [pink]
 const tileOrange = [orange]
 console.log(tiles)
 
-const getRandomTile = () =>{
+function getRandomTile() {
   return tiles[parseInt(Math.random() * tiles.length)]
 }
 
@@ -49,6 +49,7 @@ const main = async () => {
 }
 
 function startGame() {
+  getRandomTile()
     inPlay = true;
     document.getElementById("startBtn").classList.add("hidden");
     document.getElementById("stopBtn").classList.remove("hidden");
@@ -71,22 +72,22 @@ function rangeSlide() {
     const orange = document.getElementById('orange')
     const range = document.getElementById('myRange').value
     
-    if (range >= 5 ) {
-      
+    if (range == 5 && pink.classList.contains("hidden")) {
         pink.classList.remove("hidden");
         tiles.push(pink)
         console.log(tiles)
-    } else {
-      tiles.splice(4,1)
-        pink.classList.add("hidden");
-        
-        console.log(tiles)
-    }
+      } else if (range < 5){
+        tiles.splice(4,1)
+          pink.classList.add("hidden");
+          console.log(tiles)
+      }
 
-    if (range >= 6) {
+
+    if (range == 6) {
         orange.classList.remove("hidden");
         tiles.push(orange)
-    } else {
+        console.log(tiles)
+    } else if (range < 6){
       tiles.splice(5,1)
         orange.classList.add("hidden");
     }
