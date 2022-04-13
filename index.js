@@ -51,6 +51,7 @@ const main = async () => {
 function startGame() {
   getRandomTile()
     inPlay = true;
+    document.querySelector('.tile').classList.remove("noclick");
     document.getElementById("startBtn").classList.add("hidden");
     document.getElementById("stopBtn").classList.remove("hidden");
     document.getElementById("myRange").classList.add("hidden");
@@ -59,6 +60,7 @@ function startGame() {
   
   function stopGame() {
     inPlay = false;
+    document.querySelector('.tile').classList.add("noclick");
     document.getElementById("startBtn").classList.remove("hidden");
     document.getElementById("stopBtn").classList.add("hidden");
     document.getElementById("myRange").classList.remove("hidden");

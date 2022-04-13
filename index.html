@@ -18,13 +18,13 @@
 <input class='center_range' type="range" id='myRange' min="4" max="6" value="4" oninput='rangeSlide()'>
 
     <div class='center noselect'>
-        <div class='tile blue' onclick="playAudio('assets/1.ogg')"></div>
-        <div class='tile red' onclick="playAudio('assets/2.ogg')"></div>
-        <div class='tile green' onclick="playAudio('assets/3.ogg')"></div>
-        <div class='tile yellow' onclick="playAudio('assets/4.ogg')"></div>
+        <div class='tile blue noclick' onclick="playAudio('assets/1.ogg')"></div>
+        <div class='tile red noclick' onclick="playAudio('assets/2.ogg')"></div>
+        <div class='tile green noclick' onclick="playAudio('assets/3.ogg')"></div>
+        <div class='tile yellow noclick' onclick="playAudio('assets/4.ogg')"></div>
 
-        <div id='pink' class='tile pink hidden' onclick="playAudio('assets/5.ogg')"></div>
-        <div id='orange' class='tile orange hidden' onclick="playAudio('assets/6.ogg')"></div>
+        <div id='pink' class='tile pink noclick hidden' onclick="playAudio('assets/5.ogg')"></div>
+        <div id='orange' class='tile orange noclick hidden' onclick="playAudio('assets/6.ogg')"></div>
     </div>
     <script src="./index.js"></script>
 </body>

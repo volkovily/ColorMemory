@@ -27,13 +27,15 @@ height: 100px;
 background-color: rgb(202, 202, 202);
 box-shadow: inset 0px 0px 0px 1px black;
 cursor: pointer;
-    
 }
+
 .tile:hover {
 box-shadow: inset 0px 0px 100px 100px rgba(255, 255, 255, 0.3);
-
 }
 
+.noclick {
+pointer-events:none;
+}
 
 .blue{
     background-color: blue;
