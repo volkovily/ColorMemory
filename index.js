@@ -3,8 +3,6 @@ const blue = document.querySelector('.blue')
 const red = document.querySelector('.red')
 const green = document.querySelector('.green')
 const yellow = document.querySelector('.yellow')
-const pink = document.querySelector('.pink')
-const orange = document.querySelector('.orange')
 
 function playAudio(sound) {
   new Audio(sound).play();
@@ -49,9 +47,9 @@ const main = async () => {
 }
 
 function startGame() {
-  getRandomTile()
     inPlay = true;
-    document.querySelector('.tile').classList.remove("noclick");
+    // tileс = document.getElementsByClassName('tile')
+    // tileс.classList.remove("noclick");
     document.getElementById("startBtn").classList.add("hidden");
     document.getElementById("stopBtn").classList.remove("hidden");
     document.getElementById("myRange").classList.add("hidden");
@@ -60,7 +58,6 @@ function startGame() {
   
   function stopGame() {
     inPlay = false;
-    document.querySelector('.tile').classList.add("noclick");
     document.getElementById("startBtn").classList.remove("hidden");
     document.getElementById("stopBtn").classList.add("hidden");
     document.getElementById("myRange").classList.remove("hidden");
@@ -70,8 +67,8 @@ function startGame() {
 
 // Range functionality
 function rangeSlide() {
-    const pink = document.getElementById('pink')
-    const orange = document.getElementById('orange')
+  const pink = document.querySelector('.pink')
+  const orange = document.querySelector('.orange')
     const range = document.getElementById('myRange').value
     
     if (range == 5 && pink.classList.contains("hidden")) {
