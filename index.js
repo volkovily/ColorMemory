@@ -18,6 +18,7 @@ function getRandomTile() {
 const sequence = [getRandomTile()]
 let sequenceToGuess = [...sequence]
 
+
 const flash = (tile) => {
   return new Promise((resolve, reject) => {
     tile.className += ' active'
@@ -28,7 +29,7 @@ const flash = (tile) => {
       setTimeout(() => {
         resolve();
       }, 250);
-    }, 700)
+    }, 800)
   })
 }
 
@@ -87,7 +88,7 @@ function rangeSlide() {
   const orange = document.querySelector('.orange')
     const range = document.getElementById('myRange').value
     
-    if (range == 5 && pink.classList.contains("hidden")) {
+    if (range >= 5 && pink.classList.contains("hidden")) {
         pink.classList.remove("hidden");
         tiles.push(pink)
       } else if (range < 5){
