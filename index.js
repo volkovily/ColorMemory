@@ -9,18 +9,13 @@ function playAudio(sound) {
 }
 
 const tiles = [blue, red, green, yellow]
-console.log(tiles)
 
 function getRandomTile() {
   return tiles[parseInt(Math.random() * tiles.length)]
 }
 
-const sequence = [
- getRandomTile(),
- getRandomTile(),
- getRandomTile(),
- getRandomTile()
-]
+const sequence = [getRandomTile()]
+let sequenceToGuess = [...sequence]
 
 const flash = (tile) => {
   return new Promise((resolve, reject) => {
@@ -36,11 +31,31 @@ const flash = (tile) => {
   })
 }
 
+let canClick = false
+const tileClicked = tileClicked => {
+  if (!canClick) return;
+  const expectedTile = sequenceToGuess.shift();
+  if (expectedTile === tileClicked) {
+    if (sequenceToGuess.length === 0) {
+      //start again
+      sequence.push(getRandomTile())
+      sequenceToGuess = [...sequence]
+      startFlashing()
+    }
 
-const main = async () => {
-  for(let tile of sequence) {
+  } else {
+    // end
+    alert('wrong')
+    stopGame()
+  }
+}
+
+const startFlashing = async () => {
+  canClick = false;
+  for(const tile of sequence) {
     await flash(tile)
   }
+  canClick = true
 
 }
 
@@ -51,7 +66,7 @@ function startGame() {
     document.getElementById("startBtn").classList.add("hidden");
     document.getElementById("stopBtn").classList.remove("hidden");
     document.getElementById("myRange").classList.add("hidden");
-    main()
+    startFlashing()
   } 
   
   function stopGame() {
@@ -72,18 +87,15 @@ function rangeSlide() {
     if (range == 5 && pink.classList.contains("hidden")) {
         pink.classList.remove("hidden");
         tiles.push(pink)
-        console.log(tiles)
       } else if (range < 5){
         tiles.splice(4,1)
           pink.classList.add("hidden");
-          console.log(tiles)
       }
 
 
     if (range == 6) {
         orange.classList.remove("hidden");
         tiles.push(orange)
-        console.log(tiles)
     } else if (range < 6){
       tiles.splice(5,1)
         orange.classList.add("hidden");
