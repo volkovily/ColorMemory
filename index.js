@@ -3,6 +3,7 @@ const blue = document.querySelector('.blue')
 const red = document.querySelector('.red')
 const green = document.querySelector('.green')
 const yellow = document.querySelector('.yellow')
+const page = document.querySelector('.noclick')
 
 function playAudio(sound) {
   new Audio(sound).play();
@@ -51,12 +52,13 @@ const tileClicked = tileClicked => {
 }
 
 const startFlashing = async () => {
+  page.classList.add("noclick");
   canClick = false;
   for(const tile of sequence) {
     await flash(tile)
   }
+  page.classList.remove("noclick");
   canClick = true
-
 }
 
 function startGame() {
@@ -71,6 +73,7 @@ function startGame() {
   
   function stopGame() {
     inPlay = false;
+    page.classList.add("noclick");
     document.getElementById("startBtn").classList.remove("hidden");
     document.getElementById("stopBtn").classList.add("hidden");
     document.getElementById("myRange").classList.remove("hidden");
