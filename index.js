@@ -28,8 +28,8 @@ const flash = (tile) => {
       tile.className = tile.className.replace(' active','')
       setTimeout(() => {
         resolve();
-      }, 250);
-    }, 800)
+      }, 250) //time until next tile shows up
+    }, 800) // flash live time
   })
 }
 
@@ -39,10 +39,12 @@ const tileClicked = tileClicked => {
   const expectedTile = sequenceToGuess.shift();
   if (expectedTile === tileClicked) {
     if (sequenceToGuess.length === 0) {
-      //start again
-      sequence.push(getRandomTile())
-      sequenceToGuess = [...sequence]
-      startFlashing()
+      setTimeout(() => {
+        sequence.push(getRandomTile())
+        sequenceToGuess = [...sequence]
+        startFlashing()
+      }, 700); //time before new sequence shows
+
     }
 
   } else {
