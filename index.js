@@ -9,8 +9,6 @@ function playAudio(sound) {
 }
 
 const tiles = [blue, red, green, yellow]
-const tilePink = [pink]
-const tileOrange = [orange]
 console.log(tiles)
 
 function getRandomTile() {
