@@ -12,15 +12,17 @@ function playAudio(sound) {
 const tiles = [blue, red, green, yellow]
 
 function getRandomTile() {
-  return tiles[parseInt(Math.random() * tiles.length)]
+  random = tiles[parseInt(Math.random() * tiles.length)]
+  return random
 }
 
-const sequence = [getRandomTile()]
+let sequence = [getRandomTile()]
 let sequenceToGuess = [...sequence]
 
 
 const flash = (tile) => {
   return new Promise((resolve, reject) => {
+    playAudio('assets/2.ogg')
     tile.className += ' active'
     console.log('tick')
     setTimeout(() => {
@@ -44,11 +46,9 @@ const tileClicked = tileClicked => {
         sequenceToGuess = [...sequence]
         startFlashing()
       }, 700); //time before new sequence shows
-
     }
 
   } else {
-    // end
     alert('wrong')
     stopGame()
   }
@@ -64,10 +64,11 @@ const startFlashing = async () => {
   canClick = true
 }
 
+
 function startGame() {
+    sequence = [getRandomTile()]
+    sequenceToGuess = [...sequence]
     inPlay = true;
-    // tileс = document.getElementsByClassName('tile')
-    // tileс.classList.remove("noclick");
     document.getElementById("startBtn").classList.add("hidden");
     document.getElementById("stopBtn").classList.remove("hidden");
     document.getElementById("myRange").classList.add("hidden");
@@ -75,6 +76,8 @@ function startGame() {
   } 
   
   function stopGame() {
+    sequence.splice(1)
+    // sequenceToGuess.splice(0)
     inPlay = false;
     page.classList.add("noclick");
     document.getElementById("startBtn").classList.remove("hidden");
