@@ -5,11 +5,13 @@ const green = document.querySelector('.green')
 const yellow = document.querySelector('.yellow')
 const page = document.querySelector('.noclick')
 
+const tiles = [blue, red, green, yellow]
+
+
 function playAudio(sound) {
   new Audio(sound).play();
 }
 
-const tiles = [blue, red, green, yellow]
 
 function getRandomTile() {
   random = tiles[parseInt(Math.random() * tiles.length)]
@@ -49,7 +51,7 @@ const tileClicked = tileClicked => {
     }
 
   } else {
-    alert('wrong')
+    playAudio('assets/wrong.ogg')
     stopGame()
   }
 }
