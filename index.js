@@ -19,7 +19,6 @@ function playAudio(sound) {
   new Audio(sound).play();
 }
 
-
 function getRandomTile() {
   random = tiles[parseInt(Math.random() * tiles.length)]
   return random
@@ -27,7 +26,6 @@ function getRandomTile() {
 
 let sequence = [getRandomTile()]
 let sequenceToGuess = [...sequence]
-
 
 const flash = (tile) => {
   return new Promise((resolve, reject) => {
@@ -55,7 +53,6 @@ const tileClicked = tileClicked => {
         startFlashing()
       }, 700); //time before new sequence shows
     }
-
   } else {
     playAudio('assets/wrong.ogg')
     stopGame()
@@ -78,8 +75,6 @@ const startFlashing = async () => {
   }
 }
 
-
-
 function startGame() {
   hint.style.color = 'black'
     hint.innerHTML = textStart
@@ -93,22 +88,20 @@ function startGame() {
   } 
   
   function stopGame() {
-    hint.innerHTML = textStart
-    sequence.splice(1)
     inPlay = false;
+    sequence.splice(0)
+    hint.innerHTML = textStart
     page.classList.add("noclick");
     document.getElementById("startBtn").classList.remove("hidden");
     document.getElementById("stopBtn").classList.add("hidden");
     document.getElementById("myRange").classList.remove("hidden");
   }
 
-
-
 // Range functionality
 function rangeSlide() {
   const pink = document.querySelector('.pink')
   const orange = document.querySelector('.orange')
-    const range = document.getElementById('myRange').value
+  const range = document.getElementById('myRange').value
     
     if (range >= 5 && pink.classList.contains("hidden")) {
         pink.classList.remove("hidden");
@@ -117,12 +110,10 @@ function rangeSlide() {
         tiles.splice(4,1)
           pink.classList.add("hidden");
       }
-
-
     if (range == 6) {
         orange.classList.remove("hidden");
         tiles.push(orange)
-    } else if (range < 6){
+    } else {
       tiles.splice(5,1)
         orange.classList.add("hidden");
     }
