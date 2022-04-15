@@ -16,6 +16,8 @@ let timeNextTile = 250
 let timeFlashLife = 800
 const timeNextSequence = 700
 
+let score = 0
+
 const tiles = [blue, red, green, yellow]
 
 
