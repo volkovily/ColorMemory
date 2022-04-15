@@ -11,12 +11,6 @@
 </head>
 <body>
     <h2 class='center'>Color Memory</h2>
-    
-<button id='startBtn' class='center_button' onclick='startGame()'>Start</button>
-<button id="stopBtn" class='center_button hidden' onclick="stopGame()"> Stop</button>
-
-<input class='center_range' type="range" id='myRange' min="4" max="6" value="4" oninput='rangeSlide()'>
-
     <div class='center noselect noclick'>
         <div class='tile blue' onclick="playAudio('assets/1.ogg'); tileClicked(event.currentTarget)"></div>
         <div class='tile red' onclick="playAudio('assets/2.ogg'); tileClicked(event.currentTarget)"></div>
@@ -28,6 +22,14 @@
     </div>
 
     <p id='hint' class='center'>Click on the button to start the game!</p>
+    
+    <div class = 'center'>
+        <button id='startBtn' class='' onclick='startGame()'>Start</button></span>
+        <button id="stopBtn" class='hidden' onclick="stopGame()"> Stop</button>
+        <div><input class='' type="range" id='myRange' min="4" max="6" value="4" oninput='rangeSlide()'></div>
+        </div>
+
+    
 
     <script src="./index.js"></script>
 </body>
