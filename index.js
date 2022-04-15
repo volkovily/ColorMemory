@@ -59,8 +59,10 @@ const tileClicked = tileClicked => {
 
   } else {
     playAudio('assets/wrong.ogg')
-    hint.innerHTML = textWrong
     stopGame()
+    hint.innerHTML = textWrong
+    hint.style.color = 'red'
+    
   }
 }
 
@@ -80,6 +82,8 @@ const startFlashing = async () => {
 
 
 function startGame() {
+  hint.style.color = 'black'
+    hint.innerHTML = textStart
     sequence = [getRandomTile()]
     sequenceToGuess = [...sequence]
     inPlay = true;
