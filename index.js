@@ -33,7 +33,6 @@ const flash = (tile) => {
   return new Promise((resolve, reject) => {
     playAudio('assets/2.ogg')
     tile.className += ' active'
-    console.log('tick')
     setTimeout(() => {
       tile.className = tile.className.replace(' active','')
       setTimeout(() => {
