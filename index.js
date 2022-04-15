@@ -9,6 +9,7 @@ const page = document.querySelector('.noclick')
 const tiles = [blue, red, green, yellow]
 
 const hint = document.getElementById('hint')
+const textStart = 'Click on the button to start the game!'
 const textRemember = 'Remember the sequence!'
 const textRepeat = 'Now repeat the sequence!'
 const textWrong = 'Wrong tile! Start a new game to try again!'
@@ -86,6 +87,7 @@ function startGame() {
   } 
   
   function stopGame() {
+    hint.innerHTML = textStart
     sequence.splice(1)
     inPlay = false;
     page.classList.add("noclick");
