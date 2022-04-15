@@ -48,6 +48,7 @@ const tileClicked = tileClicked => {
   const expectedTile = sequenceToGuess.shift();
   if (expectedTile === tileClicked) {
     if (sequenceToGuess.length === 0) {
+      page.classList.add("noclick");
       setTimeout(() => {
         sequence.push(getRandomTile())
         sequenceToGuess = [...sequence]
@@ -64,7 +65,6 @@ const tileClicked = tileClicked => {
 
 const startFlashing = async () => {
   hint.innerHTML = textRemember
-  page.classList.add("noclick");
   canClick = false;
   for(const tile of sequence) {
     await flash(tile)
