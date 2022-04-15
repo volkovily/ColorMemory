@@ -11,6 +11,7 @@
 </head>
 <body>
     <h2 class='center'>Color Memory</h2>
+    
 
 <button id='startBtn' class='center_button' onclick='startGame()'>Start</button>
 <button id="stopBtn" class='center_button hidden' onclick="stopGame()"> Stop</button>
@@ -26,6 +27,9 @@
         <div id='pink' class='tile pink hidden' onclick="playAudio('assets/5.ogg'); tileClicked(event.currentTarget)"></div>
         <div id='orange' class='tile orange hidden' onclick="playAudio('assets/6.ogg'); tileClicked(event.currentTarget)"></div>
     </div>
+
+    <p id='hint' class='center'>Click on the button to start the game!</p>
+
     <script src="./index.js"></script>
 </body>
 </html>

@@ -1,4 +1,5 @@
 let inPlay = false;
+
 const blue = document.querySelector('.blue')
 const red = document.querySelector('.red')
 const green = document.querySelector('.green')
@@ -6,6 +7,11 @@ const yellow = document.querySelector('.yellow')
 const page = document.querySelector('.noclick')
 
 const tiles = [blue, red, green, yellow]
+
+const hint = document.getElementById('hint')
+const textRemember = 'Remember the sequence!'
+const textRepeat = 'Now repeat the sequence!'
+const textWrong = 'Wrong tile! Start a new game to try again!'
 
 
 function playAudio(sound) {
@@ -28,7 +34,6 @@ const flash = (tile) => {
     tile.className += ' active'
     console.log('tick')
     setTimeout(() => {
-
       tile.className = tile.className.replace(' active','')
       setTimeout(() => {
         resolve();
@@ -52,16 +57,19 @@ const tileClicked = tileClicked => {
 
   } else {
     playAudio('assets/wrong.ogg')
+    hint.innerHTML = textWrong
     stopGame()
   }
 }
 
 const startFlashing = async () => {
+  hint.innerHTML = textRemember
   page.classList.add("noclick");
   canClick = false;
   for(const tile of sequence) {
     await flash(tile)
   }
+  hint.innerHTML = textRepeat
   page.classList.remove("noclick");
   canClick = true
 }
@@ -79,7 +87,6 @@ function startGame() {
   
   function stopGame() {
     sequence.splice(1)
-    // sequenceToGuess.splice(0)
     inPlay = false;
     page.classList.add("noclick");
     document.getElementById("startBtn").classList.remove("hidden");
@@ -112,4 +119,3 @@ function rangeSlide() {
         orange.classList.add("hidden");
     }
 }
-
