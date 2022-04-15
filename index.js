@@ -70,10 +70,13 @@ const startFlashing = async () => {
   for(const tile of sequence) {
     await flash(tile)
   }
+  if(inPlay) {
   hint.innerHTML = textRepeat
   page.classList.remove("noclick");
   canClick = true
+  }
 }
+
 
 
 function startGame() {
