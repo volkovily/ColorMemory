@@ -6,13 +6,17 @@ const green = document.querySelector('.green')
 const yellow = document.querySelector('.yellow')
 const page = document.querySelector('.noclick')
 
-const tiles = [blue, red, green, yellow]
-
 const hint = document.getElementById('hint')
 const textStart = 'Click on the button to start the game!'
 const textRemember = 'Remember the sequence!'
 const textRepeat = 'Now repeat the sequence!'
 const textWrong = 'Wrong tile! Start a new game to try again!'
+
+let timeNextTile = 250
+let timeFlashLife = 800
+const timeNextSequence = 700
+
+const tiles = [blue, red, green, yellow]
 
 
 function playAudio(sound) {
@@ -35,8 +39,8 @@ const flash = (tile) => {
       tile.className = tile.className.replace(' active','')
       setTimeout(() => {
         resolve();
-      }, 250) //time until next tile shows up
-    }, 800) // flash live time
+      }, timeNextTile) //time until next tile shows up
+    }, timeFlashLife) // flash life time
   })
 }
 
@@ -51,7 +55,7 @@ const tileClicked = tileClicked => {
         sequence.push(getRandomTile())
         sequenceToGuess = [...sequence]
         startFlashing()
-      }, 700); //time before new sequence shows
+      }, timeNextSequence); //time before new sequence shows
     }
   } else {
     playAudio('assets/wrong.ogg')
