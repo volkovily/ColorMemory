@@ -53,6 +53,8 @@ const tileClicked = tileClicked => {
   const expectedTile = sequenceToGuess.shift();
   if (expectedTile === tileClicked) {
     if (sequenceToGuess.length === 0) {
+      score++
+      updateScore()
       page.classList.add("noclick");
       setTimeout(() => {
         sequence.push(getRandomTile())
@@ -83,6 +85,7 @@ const startFlashing = async () => {
 }
 
 function startGame() {
+
   hint.style.color = 'black'
     hint.innerHTML = textStart
     sequence = [getRandomTile()]
@@ -95,6 +98,8 @@ function startGame() {
   } 
   
   function stopGame() {
+    score = 0
+    updateScore()
     inPlay = false;
     sequence.splice(0)
     hint.innerHTML = textStart
@@ -124,4 +129,8 @@ function rangeSlide() {
       tiles.splice(5,1)
         orange.classList.add("hidden");
     }
+}
+
+function updateScore() {
+  document.getElementById("currentScore").innerHTML = score;
 }
