@@ -96,7 +96,7 @@ function startGame() {
     inPlay = true;
     document.getElementById("startBtn").classList.add("hidden");
     document.getElementById("stopBtn").classList.remove("hidden");
-    document.getElementById("myRange").classList.add("hidden");
+    document.getElementById("rangeTiles").classList.add("hidden");
     startFlashing()
   } 
   
@@ -109,14 +109,14 @@ function startGame() {
     page.classList.add("noclick");
     document.getElementById("startBtn").classList.remove("hidden");
     document.getElementById("stopBtn").classList.add("hidden");
-    document.getElementById("myRange").classList.remove("hidden");
+    document.getElementById("rangeTiles").classList.remove("hidden");
   }
 
 // Range functionality
 function rangeSlide() {
   const pink = document.querySelector('.pink')
   const orange = document.querySelector('.orange')
-  const range = document.getElementById('myRange').value
+  const range = document.getElementById('rangeTiles').value
     
     if (range >= 5 && pink.classList.contains("hidden")) {
         pink.classList.remove("hidden");
