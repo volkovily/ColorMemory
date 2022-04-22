@@ -14,13 +14,12 @@ const textWrong = 'Wrong tile! Start a new game to try again!'
 
 let timeNextTile = 250
 let timeFlashLife = 800
-const timeNextSequence = 700
+let timeNextSequence = 700
 
 let score = 0
 let scoreBest = 0
 
 const tiles = [blue, red, green, yellow]
-
 
 function playAudio(sound) {
   new Audio(sound).play();
@@ -54,6 +53,10 @@ const tileClicked = tileClicked => {
   if (expectedTile === tileClicked) {
     if (sequenceToGuess.length === 0) {
       score++
+      if (score > scoreBest) {
+        scoreBest = score;
+        updateMax();
+      }
       updateScore()
       page.classList.add("noclick");
       setTimeout(() => {
@@ -133,4 +136,8 @@ function rangeSlide() {
 
 function updateScore() {
   document.getElementById("currentScore").innerHTML = score;
+}
+
+function updateMax() {
+  document.getElementById("bestScore").innerHTML = scoreBest;
 }
