@@ -14,7 +14,7 @@ const textWrong = 'Wrong tile! Start a new game to try again!'
 
 let timeNextTile = 250
 let timeFlashLife = 800
-let timeNextSequence = 700
+const timeNextSequence = 700
 
 let score = 0
 let scoreBest = 0
@@ -34,7 +34,7 @@ let sequence = [getRandomTile()]
 let sequenceToGuess = [...sequence]
 
 const flash = (tile) => {
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve) => {
     playAudio('assets/2.ogg')
     tile.className += ' active'
     setTimeout(() => {
@@ -88,7 +88,6 @@ const startFlashing = async () => {
 }
 
 function startGame() {
-
   hint.style.color = 'black'
     hint.innerHTML = textStart
     sequence = [getRandomTile()]
@@ -133,6 +132,10 @@ function rangeSlide() {
         orange.classList.add("hidden");
     }
 }
+
+
+
+
 
 function updateScore() {
   document.getElementById("currentScore").innerHTML = score;
