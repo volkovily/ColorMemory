@@ -16,6 +16,9 @@ let timeNextTile = 250
 let timeFlashLife = 800
 const timeNextSequence = 700
 
+const timeNextTileStart = 250
+const timeFlashLifeStart = 800
+
 let score = 0
 let scoreBest = 0
 
@@ -96,6 +99,7 @@ function startGame() {
     document.getElementById("startBtn").classList.add("hidden");
     document.getElementById("stopBtn").classList.remove("hidden");
     document.getElementById("rangeTiles").classList.add("hidden");
+    document.getElementById("rangeSpeed").classList.add("hidden");
     startFlashing()
   } 
   
@@ -109,6 +113,7 @@ function startGame() {
     document.getElementById("startBtn").classList.remove("hidden");
     document.getElementById("stopBtn").classList.add("hidden");
     document.getElementById("rangeTiles").classList.remove("hidden");
+    document.getElementById("rangeSpeed").classList.remove("hidden");
   }
 
 // Range functionality
@@ -133,7 +138,16 @@ function rangeSlide() {
     }
 }
 
+function rangeSpeed() {
+  const rangeSpeed = document.getElementById('rangeSpeed').value
+  
+  if (rangeSpeed > 1)
+  timeNextTile = timeNextTileStart / rangeSpeed
+  timeFlashLife = timeFlashLifeStart / rangeSpeed
+  console.log(timeNextTile)
+  console.log(timeFlashLife)
 
+}
 
 
 
