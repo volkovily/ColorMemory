@@ -144,8 +144,7 @@ function rangeSpeed() {
   if (rangeSpeed > 1)
   timeNextTile = timeNextTileStart / rangeSpeed
   timeFlashLife = timeFlashLifeStart / rangeSpeed
-  console.log(timeNextTile)
-  console.log(timeFlashLife)
+  document.getElementById("speed").innerHTML = rangeSpeed + 'x'
 
 }
 
