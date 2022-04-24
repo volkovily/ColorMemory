@@ -100,6 +100,10 @@ function startGame() {
     document.getElementById("stopBtn").classList.remove("hidden");
     document.getElementById("rangeTiles").classList.add("hidden");
     document.getElementById("rangeSpeed").classList.add("hidden");
+    document.getElementById("labelTiles").classList.add("hidden");
+    document.getElementById("labelSpeed").classList.add("hidden");
+    document.getElementById("speed").classList.add("hidden");
+
     startFlashing()
   } 
   
@@ -114,6 +118,9 @@ function startGame() {
     document.getElementById("stopBtn").classList.add("hidden");
     document.getElementById("rangeTiles").classList.remove("hidden");
     document.getElementById("rangeSpeed").classList.remove("hidden");
+    document.getElementById("labelTiles").classList.remove("hidden");
+    document.getElementById("labelSpeed").classList.remove("hidden");
+    document.getElementById("speed").classList.remove("hidden");
   }
 
 // Range functionality
