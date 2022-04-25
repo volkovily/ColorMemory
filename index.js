@@ -159,6 +159,13 @@ function rangeSpeed() {
 }
 
 
+function isChecked() {
+if(document.getElementById('checkbox').checked){
+  console.log('hi')
+}
+}
+
+
 
 function updateScore() {
   document.getElementById("currentScore").innerHTML = score;
