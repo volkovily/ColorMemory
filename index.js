@@ -103,7 +103,8 @@ function startGame() {
     document.getElementById("labelTiles").classList.add("hidden");
     document.getElementById("labelSpeed").classList.add("hidden");
     document.getElementById("speed").classList.add("hidden");
-
+    document.getElementById("checkbox").classList.add("hidden");
+    document.getElementById("labelCheckbox").classList.add("hidden");
     startFlashing()
   } 
   
@@ -121,6 +122,8 @@ function startGame() {
     document.getElementById("labelTiles").classList.remove("hidden");
     document.getElementById("labelSpeed").classList.remove("hidden");
     document.getElementById("speed").classList.remove("hidden");
+    document.getElementById("checkbox").classList.remove("hidden");
+    document.getElementById("labelCheckbox").classList.remove("hidden");
   }
 
 // Range functionality
