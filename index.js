@@ -6,6 +6,13 @@ const green = document.querySelector('.green')
 const yellow = document.querySelector('.yellow')
 const page = document.querySelector('.noclick')
 
+const audioBlue = new Audio('assets/1.ogg')
+const audioRed = new Audio('assets/2.ogg')
+const audioGreen = new Audio('assets/3.ogg')
+const audioYellow = new Audio('assets/4.ogg')
+const audioPink = new Audio('assets/5.ogg')
+const audioOrange = new Audio('assets/6.ogg')
+
 const hint = document.getElementById('hint')
 const textStart = 'Click on the button to start the game!'
 const textRemember = 'Remember the sequence!'
@@ -24,9 +31,13 @@ let scoreBest = 0
 
 const tiles = [blue, red, green, yellow]
 
+
+
 function playAudio(sound) {
-  new Audio(sound).play();
+  sound.play()
 }
+
+
 
 function getRandomTile() {
   random = tiles[parseInt(Math.random() * tiles.length)]
@@ -38,7 +49,7 @@ let sequenceToGuess = [...sequence]
 
 const flash = (tile) => {
   return new Promise((resolve) => {
-    playAudio('assets/2.ogg')
+    
     tile.className += ' active'
     setTimeout(() => {
       tile.className = tile.className.replace(' active','')
@@ -69,7 +80,6 @@ const tileClicked = tileClicked => {
       }, timeNextSequence); //time before new sequence shows
     }
   } else {
-    playAudio('assets/wrong.ogg')
     stopGame()
     hint.innerHTML = textWrong
     hint.style.color = 'red'
