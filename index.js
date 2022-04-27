@@ -5,13 +5,7 @@ const red = document.querySelector('.red')
 const green = document.querySelector('.green')
 const yellow = document.querySelector('.yellow')
 const page = document.querySelector('.noclick')
-
-const audioBlue = new Audio('assets/1.ogg')
-const audioRed = new Audio('assets/2.ogg')
-const audioGreen = new Audio('assets/3.ogg')
-const audioYellow = new Audio('assets/4.ogg')
-const audioPink = new Audio('assets/5.ogg')
-const audioOrange = new Audio('assets/6.ogg')
+const wrongSound = document.getElementById('wrongSound')
 
 const hint = document.getElementById('hint')
 const textStart = 'Click on the button to start the game!'
@@ -32,11 +26,10 @@ let scoreBest = 0
 const tiles = [blue, red, green, yellow]
 
 
-
-function playAudio(sound) {
-  sound.play()
+function playAudio(source) {
+  new Audio(source).play();
 }
-
+  
 
 
 function getRandomTile() {
@@ -47,9 +40,12 @@ function getRandomTile() {
 let sequence = [getRandomTile()]
 let sequenceToGuess = [...sequence]
 
+
 const flash = (tile) => {
   return new Promise((resolve) => {
-    
+    currentNote = tile.dataset.color
+    noteSound = document.querySelector(`[data-sound='${currentNote}']`);
+    noteSound.play()
     tile.className += ' active'
     setTimeout(() => {
       tile.className = tile.className.replace(' active','')
@@ -59,6 +55,8 @@ const flash = (tile) => {
     }, timeFlashLife) // flash life time
   })
 }
+
+
 
 let canClick = false
 const tileClicked = tileClicked => {
@@ -73,6 +71,7 @@ const tileClicked = tileClicked => {
       }
       updateScore()
       page.classList.add("noclick");
+      
       setTimeout(() => {
         sequence.push(getRandomTile())
         sequenceToGuess = [...sequence]
@@ -80,6 +79,7 @@ const tileClicked = tileClicked => {
       }, timeNextSequence); //time before new sequence shows
     }
   } else {
+    wrongSound.play()
     stopGame()
     hint.innerHTML = textWrong
     hint.style.color = 'red'
