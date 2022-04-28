@@ -23,15 +23,12 @@ const timeFlashLifeStart = 800
 let score = 0
 let scoreBest = 0
 
-const tiles = [blue, red, green, yellow]
-
+const tiles = [blue, red, green, yellow]  
 
 function playAudio(source) {
   new Audio(source).play();
 }
   
-
-
 function getRandomTile() {
   random = tiles[parseInt(Math.random() * tiles.length)]
   return random
@@ -55,8 +52,6 @@ const flash = (tile) => {
     }, timeFlashLife) // flash life time
   })
 }
-
-
 
 let canClick = false
 const tileClicked = tileClicked => {
@@ -83,7 +78,6 @@ const tileClicked = tileClicked => {
     stopGame()
     hint.innerHTML = textWrong
     hint.style.color = 'red'
-    
   }
 }
 
@@ -101,11 +95,11 @@ const startFlashing = async () => {
 }
 
 function startGame() {
+  inPlay = true;
   hint.style.color = 'black'
     hint.innerHTML = textStart
     sequence = [getRandomTile()]
     sequenceToGuess = [...sequence]
-    inPlay = true;
     document.getElementById("startBtn").classList.add("hidden");
     document.getElementById("stopBtn").classList.remove("hidden");
     document.getElementById("rangeTiles").classList.add("hidden");
@@ -119,9 +113,9 @@ function startGame() {
   } 
   
   function stopGame() {
+    inPlay = false;
     score = 0
     updateScore()
-    inPlay = false;
     sequence.splice(0)
     hint.innerHTML = textStart
     page.classList.add("noclick");
@@ -165,17 +159,13 @@ function rangeSpeed() {
   timeNextTile = timeNextTileStart / rangeSpeed
   timeFlashLife = timeFlashLifeStart / rangeSpeed
   document.getElementById("speed").innerHTML = rangeSpeed + 'x'
-
 }
-
 
 function isChecked() {
 if(document.getElementById('checkbox').checked){
   console.log('hi')
 }
 }
-
-
 
 function updateScore() {
   document.getElementById("currentScore").innerHTML = score;
