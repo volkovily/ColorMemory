@@ -1,8 +1,9 @@
 let inPlay = false
 let canClick = false
 let powerupEnable = false
-let extraLife = false
+let haveExtraLife = false
 let powerupTimer
+let powerupChance
 
 const blue = document.querySelector('.blue')
 const red = document.querySelector('.red')
@@ -12,6 +13,7 @@ const page = document.querySelector('.noclick')
 
 const wrongSound = document.getElementById('wrongSound')
 const powerupSound = document.getElementById('powerupSound')
+const revertSound = document.getElementById('revertSound')
 
 const powerup = document.getElementById('powerupId')
 
@@ -21,7 +23,7 @@ const textRemember = 'Remember the sequence!'
 const textRepeat = 'Now repeat the sequence!'
 const textWrong = 'Wrong tile! Start a new game to try again!'
 
-const maxLeft = 100
+const maxLeft = 95
 const minLeft = 12
 
 const timePowerupLife = 10000
@@ -34,7 +36,7 @@ let timeFlashLife = 800
 let score = 0
 let scoreBest = 0
 
-const tiles = [blue, red, green, yellow]  
+const tiles = [blue]  
 
 function playAudio(source) {
   new Audio(source).play();
@@ -51,7 +53,7 @@ let sequenceToGuess = [...sequence]
 function powerupStart(min, max) {
   powerup.style.left = Math.floor(Math.random() * (max - min + 1) + min) +"%"
 }
-powerupStart(minLeft, maxLeft)
+
 
 const runPowerupTimer = () => {
   powerupTimer = setTimeout(() => {
@@ -60,19 +62,30 @@ const runPowerupTimer = () => {
 }
 
 function powerupAni(){
-  if (powerupEnable) {
+  if (!haveExtraLife && powerupChance) {
+    powerupStart(minLeft, maxLeft)
     clearTimeout(powerupTimer)
     powerup.classList.add('powerupOn')
-    runTimer()
-  }
+    runPowerupTimer()
+  } 
 }
 
 function powerupClick() {
-  // extraLife = true
+  haveExtraLife = true
   powerupSound.play()
   powerup.classList.remove('powerupOn')
   }
 
+  function randomB() {
+  if (!powerupChance) {
+  powerupChance = Math.random() < 0.3
+  }
+  else {
+    powerupChance = false
+  }
+  console.log(powerupChance)
+  }
+  
 const flash = (tile) => {
   return new Promise((resolve) => {
     currentNote = tile.dataset.color
@@ -101,18 +114,26 @@ const tileClicked = tileClicked => {
       }
       updateScore()
       page.classList.add("noclick");
-      
       setTimeout(() => {
         sequence.push(getRandomTile())
         sequenceToGuess = [...sequence]
         startFlashing()
       }, timeNextSequence); //time before new sequence shows
     }
-  } else if (!extraLife){
+  } else if (!haveExtraLife){
     wrongSound.play()
     stopGame()
     hint.innerHTML = textWrong
     hint.style.color = 'red'
+  }
+  else {
+    revertSound.play()
+    page.classList.add("noclick");
+    setTimeout(() => {
+      sequenceToGuess = [...sequence]
+      startFlashing()
+    }, timeFlashLifeStart);
+    haveExtraLife = false
   }
 }
 
@@ -122,6 +143,7 @@ const startFlashing = async () => {
   for(const tile of sequence) {
     await flash(tile)
   }
+  randomB()
   if(inPlay) {
     if (score >= 1) {
       powerupAni()
@@ -166,6 +188,7 @@ function startGame() {
     document.getElementById("speed").classList.remove("hidden");
     document.getElementById("checkbox").classList.remove("hidden");
     document.getElementById("labelCheckbox").classList.remove("hidden");
+    powerup.classList.remove('powerupOn')
   }
 
 // Range functionality
