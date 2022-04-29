@@ -1,5 +1,8 @@
 let inPlay = false
+let canClick = false
 let powerupEnable = false
+let extraLife = false
+let powerupTimer
 
 const blue = document.querySelector('.blue')
 const red = document.querySelector('.red')
@@ -50,17 +53,22 @@ function powerupStart(min, max) {
 }
 powerupStart(minLeft, maxLeft)
 
-
-function powerupAni(){
-  if (powerupEnable) {
-  powerup.classList.add('powerupOn')
-  setTimeout(() => {
+const runPowerupTimer = () => {
+  powerupTimer = setTimeout(() => {
     powerup.classList.remove('powerupOn')
   }, timePowerupLife);
 }
+
+function powerupAni(){
+  if (powerupEnable) {
+    clearTimeout(powerupTimer)
+    powerup.classList.add('powerupOn')
+    runTimer()
+  }
 }
 
 function powerupClick() {
+  // extraLife = true
   powerupSound.play()
   powerup.classList.remove('powerupOn')
   }
@@ -80,7 +88,7 @@ const flash = (tile) => {
   })
 }
 
-let canClick = false
+
 const tileClicked = tileClicked => {
   if (!canClick) return;
   const expectedTile = sequenceToGuess.shift();
@@ -100,7 +108,7 @@ const tileClicked = tileClicked => {
         startFlashing()
       }, timeNextSequence); //time before new sequence shows
     }
-  } else {
+  } else if (!extraLife){
     wrongSound.play()
     stopGame()
     hint.innerHTML = textWrong
@@ -115,7 +123,7 @@ const startFlashing = async () => {
     await flash(tile)
   }
   if(inPlay) {
-    if (score >= 1  ) {
+    if (score >= 1) {
       powerupAni()
     }
   hint.innerHTML = textRepeat
