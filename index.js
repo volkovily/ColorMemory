@@ -5,7 +5,9 @@ const red = document.querySelector('.red')
 const green = document.querySelector('.green')
 const yellow = document.querySelector('.yellow')
 const page = document.querySelector('.noclick')
+
 const wrongSound = document.getElementById('wrongSound')
+const powerupSound = document.getElementById('powerupSound')
 
 const powerup = document.getElementById('powerupId')
 
@@ -17,13 +19,13 @@ const textWrong = 'Wrong tile! Start a new game to try again!'
 
 const maxLeft = 100
 const minLeft = 12
-const timePowerupLife = 10000
-let timeNextTile = 250
-let timeFlashLife = 800
-const timeNextSequence = 700
 
+const timePowerupLife = 10000
+const timeNextSequence = 700
 const timeNextTileStart = 250
 const timeFlashLifeStart = 800
+let timeNextTile = 250
+let timeFlashLife = 800
 
 let score = 0
 let scoreBest = 0
@@ -56,6 +58,8 @@ function powerupAni(){
 }
 
 function powerupClick() {
+  powerupSound.play()
+  powerup.classList.remove('powerupOn')
   console.log('test powerup') 
   }
 
