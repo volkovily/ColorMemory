@@ -17,6 +17,7 @@ const textWrong = 'Wrong tile! Start a new game to try again!'
 
 const maxLeft = 100
 const minLeft = 12
+const timePowerupLife = 10000
 let timeNextTile = 250
 let timeFlashLife = 800
 const timeNextSequence = 700
@@ -51,7 +52,7 @@ function powerupAni(){
   powerup.classList.add('powerupOn')
   setTimeout(() => {
     powerup.classList.remove('powerupOn')
-  }, 10000);
+  }, timePowerupLife);
 }
 
 function powerupClick() {
@@ -108,7 +109,7 @@ const startFlashing = async () => {
     await flash(tile)
   }
   if(inPlay) {
-    if (score >= 4) {
+    if (score >= 5) {
       powerupAni()
     }
   hint.innerHTML = textRepeat
