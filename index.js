@@ -7,12 +7,16 @@ const yellow = document.querySelector('.yellow')
 const page = document.querySelector('.noclick')
 const wrongSound = document.getElementById('wrongSound')
 
+const powerup = document.getElementById('powerupId')
+
 const hint = document.getElementById('hint')
 const textStart = 'Click on the button to start the game!'
 const textRemember = 'Remember the sequence!'
 const textRepeat = 'Now repeat the sequence!'
 const textWrong = 'Wrong tile! Start a new game to try again!'
 
+const maxLeft = 100
+const minLeft = 12
 let timeNextTile = 250
 let timeFlashLife = 800
 const timeNextSequence = 700
@@ -37,6 +41,22 @@ function getRandomTile() {
 let sequence = [getRandomTile()]
 let sequenceToGuess = [...sequence]
 
+function powerupStart(min, max) {
+  powerup.style.left = Math.floor(Math.random() * (max - min + 1) + min) +"%"
+}
+powerupStart(minLeft, maxLeft)
+
+
+function powerupAni(){
+  powerup.classList.add('powerupOn')
+  setTimeout(() => {
+    powerup.classList.remove('powerupOn')
+  }, 10000);
+}
+
+function powerupClick() {
+  console.log('test powerup') 
+  }
 
 const flash = (tile) => {
   return new Promise((resolve) => {
@@ -88,6 +108,9 @@ const startFlashing = async () => {
     await flash(tile)
   }
   if(inPlay) {
+    if (score >= 4) {
+      powerupAni()
+    }
   hint.innerHTML = textRepeat
   page.classList.remove("noclick");
   canClick = true
