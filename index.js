@@ -1,4 +1,5 @@
-let inPlay = false;
+let inPlay = false
+let powerupEnable = false
 
 const blue = document.querySelector('.blue')
 const red = document.querySelector('.red')
@@ -51,16 +52,17 @@ powerupStart(minLeft, maxLeft)
 
 
 function powerupAni(){
+  if (powerupEnable) {
   powerup.classList.add('powerupOn')
   setTimeout(() => {
     powerup.classList.remove('powerupOn')
   }, timePowerupLife);
 }
+}
 
 function powerupClick() {
   powerupSound.play()
   powerup.classList.remove('powerupOn')
-  console.log('test powerup') 
   }
 
 const flash = (tile) => {
@@ -113,7 +115,7 @@ const startFlashing = async () => {
     await flash(tile)
   }
   if(inPlay) {
-    if (score >= 5) {
+    if (score >= 1  ) {
       powerupAni()
     }
   hint.innerHTML = textRepeat
@@ -191,7 +193,7 @@ function rangeSpeed() {
 
 function isChecked() {
 if(document.getElementById('checkbox').checked){
-  console.log('hi')
+  powerupEnable = true
 }
 }
 
