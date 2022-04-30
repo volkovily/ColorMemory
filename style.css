@@ -1,3 +1,9 @@
+.noscroll {
+    height: 100%;
+    overflow-y: hidden;
+}
+
+
 .noselect {
     -webkit-user-drag: none; 
      user-select: none;
