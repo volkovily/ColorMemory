@@ -2,6 +2,7 @@ let inPlay = false
 let canClick = false
 let powerupEnable = false
 let haveExtraLife = false
+let hadExtraLife = false
 let powerupTimer
 let powerupChance
 
@@ -36,7 +37,7 @@ let timeFlashLife = 800
 let score = 0
 let scoreBest = 0
 
-const tiles = [blue]  
+const tiles = [blue, red, green, yellow]  
 
 function playAudio(source) {
   new Audio(source).play();
@@ -80,8 +81,9 @@ function powerupClick() {
   if (!powerupChance) {
   powerupChance = Math.random() < 0.3
   }
-  else {
+  else if (powerupChance && hadExtraLife) {
     powerupChance = false
+    hadExtraLife = false
   }
   console.log(powerupChance)
   }
@@ -134,6 +136,7 @@ const tileClicked = tileClicked => {
       startFlashing()
     }, timeFlashLifeStart);
     haveExtraLife = false
+    hadExtraLife = true
   }
 }
 
@@ -145,7 +148,7 @@ const startFlashing = async () => {
   }
   randomB()
   if(inPlay) {
-    if (score >= 1) {
+    if (score >= 4) {
       powerupAni()
     }
   hint.innerHTML = textRepeat
