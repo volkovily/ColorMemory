@@ -8,7 +8,7 @@
 100% {top:100%}
 }
 
-.powerup {
+.bonus {
     position: absolute;
     width: 30px;
     height: 30px;
@@ -16,7 +16,7 @@
     top:-20%;
 }
 
-.powerupOn {
+.bonusOn {
     animation: anim 10s linear
 }
 

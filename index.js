@@ -1,10 +1,10 @@
 let inPlay = false
 let canClick = false
-let powerupEnable = false
+let bonusEnable = false
 let haveExtraLife = false
 let hadExtraLife = false
-let powerupTimer
-let powerupChance
+let bonusTimer
+let bonusChance
 
 const blue = document.querySelector('.blue')
 const red = document.querySelector('.red')
@@ -13,10 +13,10 @@ const yellow = document.querySelector('.yellow')
 const page = document.querySelector('.noclick')
 
 const wrongSound = document.getElementById('wrongSound')
-const powerupSound = document.getElementById('powerupSound')
+const bonusSound = document.getElementById('bonusSound')
 const revertSound = document.getElementById('revertSound')
 
-const powerup = document.getElementById('powerupId')
+const bonus = document.getElementById('bonusId')
 
 const hint = document.getElementById('hint')
 const textStart = 'Click on the button to start the game!'
@@ -27,7 +27,7 @@ const textWrong = 'Wrong tile! Start a new game to try again!'
 const maxLeft = 95
 const minLeft = 12
 
-const timePowerupLife = 10000
+const timeBonusLife = 10000
 const timeNextSequence = 700
 const timeNextTileStart = 250
 const timeFlashLifeStart = 800
@@ -51,41 +51,40 @@ function getRandomTile() {
 let sequence = [getRandomTile()]
 let sequenceToGuess = [...sequence]
 
-function powerupStart(min, max) {
-  powerup.style.left = Math.floor(Math.random() * (max - min + 1) + min) +"%"
+function bonusStart(min, max) {
+  bonus.style.left = Math.floor(Math.random() * (max - min + 1) + min) +"%"
 }
 
 
-const runPowerupTimer = () => {
-  powerupTimer = setTimeout(() => {
-    powerup.classList.remove('powerupOn')
-  }, timePowerupLife);
+const runBonusTimer = () => {
+  bonusTimer = setTimeout(() => {
+    bonus.classList.remove('bonusOn')
+  }, timeBonusLife);
 }
 
-function powerupAni(){
-  if (!haveExtraLife && powerupChance) {
-    powerupStart(minLeft, maxLeft)
-    clearTimeout(powerupTimer)
-    powerup.classList.add('powerupOn')
-    runPowerupTimer()
+function bonusAni(){
+  if (!haveExtraLife && bonusChance) {
+    bonusStart(minLeft, maxLeft)
+    clearTimeout(bonusTimer)
+    bonus.classList.add('bonusOn')
+    runBonusTimer()
   } 
 }
 
-function powerupClick() {
+function bonusClick() {
   haveExtraLife = true
-  powerupSound.play()
-  powerup.classList.remove('powerupOn')
+  bonusSound.play()
+  bonus.classList.remove('bonusOn')
   }
 
   function randomB() {
-  if (!powerupChance) {
-  powerupChance = Math.random() < 0.3
+  if (!bonusChance) {
+  bonusChance = Math.random() < 0.3
   }
-  else if (powerupChance && hadExtraLife) {
-    powerupChance = false
+  else if (bonusChance && hadExtraLife) {
+    bonusChance = false
     hadExtraLife = false
   }
-  console.log(powerupChance)
   }
   
 const flash = (tile) => {
@@ -149,7 +148,7 @@ const startFlashing = async () => {
   randomB()
   if(inPlay) {
     if (score >= 4) {
-      powerupAni()
+      bonusAni()
     }
   hint.innerHTML = textRepeat
   page.classList.remove("noclick");
@@ -191,7 +190,7 @@ function startGame() {
     document.getElementById("speed").classList.remove("hidden");
     document.getElementById("checkbox").classList.remove("hidden");
     document.getElementById("labelCheckbox").classList.remove("hidden");
-    powerup.classList.remove('powerupOn')
+    bonus.classList.remove('bonusOn')
   }
 
 // Range functionality
