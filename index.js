@@ -39,6 +39,9 @@ let scoreBest = 0
 
 const tiles = [blue, red, green, yellow]  
 
+let sequence = [getRandomTile()]
+let sequenceToGuess = [...sequence]
+
 function playAudio(source) {
   new Audio(source).play();
 }
@@ -48,8 +51,6 @@ function getRandomTile() {
   return random
 }
 
-let sequence = [getRandomTile()]
-let sequenceToGuess = [...sequence]
 
 function bonusStart(min, max) {
   bonus.style.left = Math.floor(Math.random() * (max - min + 1) + min) +"%"
