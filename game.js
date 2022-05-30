@@ -17,15 +17,18 @@ const bonusSound = document.getElementById('bonusSound')
 const revertSound = document.getElementById('revertSound')
 
 const bonus = document.getElementById('bonusId')
-
 const hint = document.getElementById('hint')
+
 const textStart = 'Click on the button to start the game!'
 const textRemember = 'Remember the sequence!'
 const textRepeat = 'Now repeat the sequence!'
 const textWrong = 'Wrong tile! Start a new game to try again!'
 
-const maxLeft = 95
-const minLeft = 12
+let score = 0
+let scoreBest = 0
+
+const maxLeftOffset = 95
+const minLeftOffset = 12
 
 const timeBonusLife = 10000
 const timeNextSequence = 700
@@ -34,8 +37,6 @@ const timeFlashLifeStart = 800
 let timeNextTile = 250
 let timeFlashLife = 800
 
-let score = 0
-let scoreBest = 0
 
 const tiles = [blue, red, green, yellow]  
 
@@ -63,9 +64,9 @@ const runBonusTimer = () => {
   }, timeBonusLife);
 }
 
-function bonusAni(){
+function bonusAnimation(){
   if (!haveExtraLife && bonusChance) {
-    bonusStart(minLeft, maxLeft)
+    bonusStart(minLeftOffset, maxLeftOffset)
     clearTimeout(bonusTimer)
     bonus.classList.add('bonusOn')
     runBonusTimer()
@@ -78,7 +79,7 @@ function bonusClick() {
   bonus.classList.remove('bonusOn')
   }
 
-  function randomB() {
+  function randomBool() {
   if (!bonusChance) {
   bonusChance = Math.random() < 0.3
   }
@@ -146,10 +147,10 @@ const startFlashing = async () => {
   for(const tile of sequence) {
     await flash(tile)
   }
-  randomB()
+  randomBool()
   if(inPlay) {
     if (score >= 4) {
-      bonusAni()
+      bonusAnimation()
     }
   hint.innerHTML = textRepeat
   page.classList.remove("noclick");
