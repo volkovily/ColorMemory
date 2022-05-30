@@ -34,13 +34,13 @@
 
     <h2 class='center'>Color Memory</h2>
     <div class='center noselect noclick'>
-        <div data-color="blue" class='tile blue' onclick="playAudio('assets/1.ogg'); tileClicked(event.currentTarget)"></div>
-        <div data-color="red" class='tile red' onclick="playAudio('assets/2.ogg'); tileClicked(event.currentTarget)"></div>
-        <div data-color="green" class='tile green' onclick="playAudio('assets/3.ogg'); tileClicked(event.currentTarget)"></div>
-        <div data-color="yellow" class='tile yellow' onclick="playAudio('assets/4.ogg'); tileClicked(event.currentTarget)"></div>
+        <div data-color="blue" class='tile blue' onclick="playAudio('assets/1.ogg'); onTileClicked(event.currentTarget)"></div>
+        <div data-color="red" class='tile red' onclick="playAudio('assets/2.ogg'); onTileClicked(event.currentTarget)"></div>
+        <div data-color="green" class='tile green' onclick="playAudio('assets/3.ogg'); onTileClicked(event.currentTarget)"></div>
+        <div data-color="yellow" class='tile yellow' onclick="playAudio('assets/4.ogg'); onTileClicked(event.currentTarget)"></div>
 
-        <div data-color="pink" id='pink' class='tile pink hidden' onclick="playAudio('assets/5.ogg'); tileClicked(event.currentTarget)"></div>
-        <div data-color="orange" id='orange' class='tile orange hidden' onclick="playAudio('assets/6.ogg'); tileClicked(event.currentTarget)"></div>
+        <div data-color="pink" id='pink' class='tile pink hidden' onclick="playAudio('assets/5.ogg'); onTileClicked(event.currentTarget)"></div>
+        <div data-color="orange" id='orange' class='tile orange hidden' onclick="playAudio('assets/6.ogg'); onTileClicked(event.currentTarget)"></div>
     </div>
 
     <p id='hint' class='center'>Click on the button to start the game!</p>
