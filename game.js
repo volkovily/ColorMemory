@@ -73,13 +73,13 @@ function bonusAnimation(){
   } 
 }
 
-function bonusClick() {
+function onBonusClick() {
   haveExtraLife = true
   bonusSound.play()
   bonus.classList.remove('bonusOn')
   }
 
-  function randomBool() {
+  function getRandomBool() {
   if (!bonusChance) {
   bonusChance = Math.random() < 0.3
   }
@@ -147,7 +147,7 @@ const startFlashing = async () => {
   for(const tile of sequence) {
     await flash(tile)
   }
-  randomBool()
+  getRandomBool()
   if(inPlay) {
     if (score >= 4) {
       bonusAnimation()
@@ -195,8 +195,8 @@ function startGame() {
     bonus.classList.remove('bonusOn')
   }
 
-// Range functionality
-function rangeSlide() {
+
+function tilesSlider() {
   const pink = document.querySelector('.pink')
   const orange = document.querySelector('.orange')
   const range = document.getElementById('rangeTiles').value
@@ -217,7 +217,7 @@ function rangeSlide() {
     }
 }
 
-function rangeSpeed() {
+function speedSlider() {
   const rangeSpeed = document.getElementById('rangeSpeed').value
   
   if (rangeSpeed > 1)
