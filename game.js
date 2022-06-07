@@ -260,5 +260,5 @@ function updateScore() {
 }
 
 function updateMax() {
-  document.getElementById('bestScore').innerHTML = scoreBest;
+  document.getElementById('bestScore').innerHTML = options.scoreBest;
 }

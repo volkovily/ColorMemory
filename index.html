@@ -1,68 +1,59 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+    
+  <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Color Memory</title>
-
     <link rel="stylesheet" href="style.css">
+  </head>
 
-</head>
-<body class='noscroll'>
-<div onclick="onBonusClick()">
-    <img class="bonus noselect" id='bonusId'src="assets/heart.png">
-</div>
-
+  <body class='noscroll'>
+    <div onclick="onBonusClick()">
+      <img class="bonus noselect" id='bonusId' src="assets/heart.png">
+    </div>
     <div class="scores">
-        <h5>
-        Score: <span id="currentScore">0</span>
-          <br />
-          Best Score: <span id="bestScore">0</span>
-        </h5>
-      </div>
-
-      <audio src="assets/1.ogg" data-sound="blue"></audio>
-      <audio src="assets/2.ogg" data-sound="red"></audio>
-      <audio src="assets/3.ogg" data-sound="green"></audio>
-      <audio src="assets/4.ogg" data-sound="yellow"></audio>
-      <audio src="assets/5.ogg" data-sound="pink"></audio>
-      <audio src="assets/6.ogg" data-sound="orange"></audio>
-      <audio src="assets/wrong.ogg" id="wrongSound"></audio>
-      <audio src="assets/bonus.wav" id="bonusSound"></audio>
-      <audio src="assets/sequence_revert.wav" id="revertSound"></audio>
-
+      <h5> Score: <span id="currentScore">0</span>
+        <br /> Best Score: <span id="bestScore">0</span>
+      </h5>
+    </div>
+    <audio src="assets/1.ogg" data-sound="blue"></audio>
+    <audio src="assets/2.ogg" data-sound="red"></audio>
+    <audio src="assets/3.ogg" data-sound="green"></audio>
+    <audio src="assets/4.ogg" data-sound="yellow"></audio>
+    <audio src="assets/5.ogg" data-sound="pink"></audio>
+    <audio src="assets/6.ogg" data-sound="orange"></audio>
+    <audio src="assets/wrong.ogg" id="wrongSound"></audio>
+    <audio src="assets/bonus.wav" id="bonusSound"></audio>
+    <audio src="assets/sequence_revert.wav" id="revertSound"></audio>
     <h2 class='center'>Color Memory</h2>
     <div class='center noselect noclick'>
-        <div data-color="blue" class='tile blue' onclick="playAudio('assets/1.ogg'); onTileClicked(event.currentTarget)"></div>
-        <div data-color="red" class='tile red' onclick="playAudio('assets/2.ogg'); onTileClicked(event.currentTarget)"></div>
-        <div data-color="green" class='tile green' onclick="playAudio('assets/3.ogg'); onTileClicked(event.currentTarget)"></div>
-        <div data-color="yellow" class='tile yellow' onclick="playAudio('assets/4.ogg'); onTileClicked(event.currentTarget)"></div>
-
-        <div data-color="pink" id='pink' class='tile pink hidden' onclick="playAudio('assets/5.ogg'); onTileClicked(event.currentTarget)"></div>
-        <div data-color="orange" id='orange' class='tile orange hidden' onclick="playAudio('assets/6.ogg'); onTileClicked(event.currentTarget)"></div>
+      <div data-color="blue" class='tile blue' onclick="playAudio('assets/1.ogg'); onTileClicked(event.currentTarget)"></div>
+      <div data-color="red" class='tile red' onclick="playAudio('assets/2.ogg'); onTileClicked(event.currentTarget)"></div>
+      <div data-color="green" class='tile green' onclick="playAudio('assets/3.ogg'); onTileClicked(event.currentTarget)"></div>
+      <div data-color="yellow" class='tile yellow' onclick="playAudio('assets/4.ogg'); onTileClicked(event.currentTarget)"></div>
+      <div data-color="pink" id='pink' class='tile pink hidden' onclick="playAudio('assets/5.ogg'); onTileClicked(event.currentTarget)"></div>
+      <div data-color="orange" id='orange' class='tile orange hidden' onclick="playAudio('assets/6.ogg'); onTileClicked(event.currentTarget)"></div>
     </div>
-
     <p id='hint' class='center noselect'>Click on the button to start the game!</p>
-    
-    <div class = 'center'>
-        <button id='startBtn'  onclick='startGame()'>Start</button></span>
-        <button id="stopBtn" class='hidden' onclick="stopGame()"> Stop</button>
+    <div class='center'>
+      <button id='startBtn' onclick='startGame()'>Start</button>
+      </span>
+      <button id="stopBtn" class='hidden' onclick="stopGame()"> Stop</button>
+      <div>
+        <label id="labelTiles">Tiles</label>
+        <input type="range" id='rangeTiles' min="4" max="6" value="4" oninput='tilesSlider()'>
+      </div>
+      <div>
+        <label id="labelSpeed">Speed</label>
+        <input type="range" id='rangeSpeed' min="1" max="10" value="1" oninput='speedSlider()'>
+        <label id="speed">1x</label>
         <div>
-            <label id="labelTiles">Tiles</label> 
-            <input type="range" id='rangeTiles' min="4" max="6" value="4" oninput='tilesSlider()'>
+          <input id="checkbox" type="checkbox" onclick="isChecked()">
+          <label id="labelCheckbox">Bonuses</label>
         </div>
-        <div>
-            <label id="labelSpeed">Speed</label> 
-            <input type="range" id='rangeSpeed' min="1" max="10" value="1" oninput='speedSlider()'>
-            <label id="speed">1x</label> 
-            <div>
-            <input id="checkbox" type="checkbox" onclick="isChecked()">
-            <label id="labelCheckbox">Bonuses</label>   
-        </div>
-        </div>
-        </div>
-
+      </div>
+    </div>
     <script src="./game.js"></script>
-</body>
+  </body>
 </html>
