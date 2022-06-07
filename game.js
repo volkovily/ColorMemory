@@ -4,12 +4,16 @@ class Elements {
     this.red = document.querySelector('.red');
     this.green = document.querySelector('.green');
     this.yellow = document.querySelector('.yellow');
+    this.pink = document.querySelector('.pink');
+    this.orange = document.querySelector('.orange');
     this.page = document.querySelector('.noclick');
+    this.bonus = document.getElementById('bonusId');
+    this.hint = document.getElementById('hint');
     this.tiles = [this.blue, this.red, this.green, this.yellow];
   }
 }
 
-class Options {
+class Interaction {
   constructor() {
    this.startBtn = document.getElementById('startBtn');
    this.stopBtn = document.getElementById('stopBtn');
@@ -22,43 +26,50 @@ class Options {
    this.checkbox = document.getElementById('checkbox');
   }
 }
+
+class Visuals {
+  constructor() {
+    this.wrongSound = document.getElementById('wrongSound');
+    this.bonusSound = document.getElementById('bonusSound');
+    this.revertSound = document.getElementById('revertSound');
+    this.textStart = 'Click on the button to start the game!';
+    this.textRemember = 'Remember the sequence!';
+    this.textRepeat = 'Now repeat the sequence!';
+    this.textWrong = 'Wrong tile! Start a new game to try again!';
+  }
+}
+
+class Timers {
+  constructor() {
+    this.timeBonusLife = 10000;
+    this.timeNextSequence = 700;
+    this.timeNextTileStart = 250;
+    this.timeFlashLifeStart = 800;
+    this.timeNextTile = 250;
+    this.timeFlashLife = 800;
+    this.bonusTimer = 0;
+  }
+}
+
+const options = {
+  inPlay: false,
+  canClick: false,
+  haveExtraLife: false,
+  hadExtraLife: false,
+  isBonusEnabled: false,
+  canGetBonus: true,
+  score: 0,
+  scoreBest: 0,
+  maxBonusOffset: 95,
+  minBonusOffset: 12,
+};
+
+
+
+const visuals = new Visuals();
 const elements = new Elements();
-const options = new Options();
-
-let inPlay = false;
-let canClick = false;
-let haveExtraLife = false;
-let hadExtraLife = false;
-let isBonusEnabled = false;
-let bonusTimer;
-let canGetBonus;
-
-
-const wrongSound = document.getElementById('wrongSound');
-const bonusSound = document.getElementById('bonusSound');
-const revertSound = document.getElementById('revertSound');
-
-const bonus = document.getElementById('bonusId');
-const hint = document.getElementById('hint');
-
-const textStart = 'Click on the button to start the game!';
-const textRemember = 'Remember the sequence!';
-const textRepeat = 'Now repeat the sequence!';
-const textWrong = 'Wrong tile! Start a new game to try again!';
-
-let score = 0;
-let scoreBest = 0;
-
-
-const maxLeftOffset = 95;
-const minLeftOffset = 12;
-
-const timeBonusLife = 10000;
-const timeNextSequence = 700;
-const timeNextTileStart = 250;
-const timeFlashLifeStart = 800;
-let timeNextTile = 250;
-let timeFlashLife = 800;
+const interaction = new Interaction();
+const timers = new Timers();
 
 function createSequence() {
   sequence = [getRandomTile()];
@@ -75,36 +86,36 @@ function getRandomTile() {
 }
 
 function bonusStart(min, max) {
-  bonus.style.left = Math.floor(Math.random() * (max - min + 1) + min) + '%';
+  elements.bonus.style.left = Math.floor(Math.random() * (max - min + 1) + min) + '%';
 }
 
 const runBonusTimer = () => {
-  bonusTimer = setTimeout(() => {
-    bonus.classList.remove('bonusOn');
-  }, timeBonusLife);
+  timers.bonusTimer = setTimeout(() => {
+    elements.bonus.classList.remove('bonusOn');
+  }, timers.timeBonusLife);
 };
 
 function bonusAnimation() {
-  if (!haveExtraLife && canGetBonus && isBonusEnabled) {
-    bonusStart(minLeftOffset, maxLeftOffset);
-    clearTimeout(bonusTimer);
-    bonus.classList.add('bonusOn');
+  if (!options.haveExtraLife && options.canGetBonus && options.isBonusEnabled) {
+    bonusStart(options.minBonusOffset, options.maxBonusOffset);
+    clearTimeout(timers.bonusTimer);
+    elements.bonus.classList.add('bonusOn');
     runBonusTimer();
   }
 }
 
 function onBonusClick() {
-  haveExtraLife = true;
-  bonusSound.play();
-  bonus.classList.remove('bonusOn');
+  options.haveExtraLife = true;
+  visuals.bonusSound.play();
+  elements.bonus.classList.remove('bonusOn');
 }
 
 function getRandomBool() {
-  if (!canGetBonus) {
-    canGetBonus = Math.random() < 0.9;
-  } else if (canGetBonus && hadExtraLife) {
-    canGetBonus = false;
-    hadExtraLife = false;
+  if (!options.canGetBonus) {
+    options.canGetBonus = Math.random() < 0.9;
+  } else if (options.canGetBonus && options.hadExtraLife) {
+    options.canGetBonus = false;
+    options.hadExtraLife = false;
   }
 }
 
@@ -117,35 +128,35 @@ const flash = tile => new Promise(resolve => {
     tile.className = tile.className.replace(' active', '');
     setTimeout(() => {
       resolve();
-    }, timeNextTile); //time until next tile shows up
-  }, timeFlashLife); // flash life time
+    }, timers.timeNextTile);
+  }, timers.timeFlashLife);
 });
 
 const startFlashing = async () => {
-  hint.innerHTML = textRemember;
-  canClick = false;
+  elements.hint.innerHTML = visuals.textRemember;
+  options.canClick = false;
   for (const tile of sequence) {
     await flash(tile);
   }
   getRandomBool();
-  if (inPlay) {
-    if (score >= 4) {
+  if (options.inPlay) {
+    if (options.score >= 4) {
       bonusAnimation();
     }
-    hint.innerHTML = textRepeat;
+    elements.hint.innerHTML = visuals.textRepeat;
     elements.page.classList.remove('noclick');
-    canClick = true;
+    options.canClick = true;
   }
 };
 
 const onTileClicked = tileClicked => {
-  if (!canClick) return;
+  if (!options.canClick) return;
   const expectedTile = sequenceToGuess.shift();
   if (expectedTile === tileClicked) {
     if (sequenceToGuess.length === 0) {
-      score++;
-      if (score > scoreBest) {
-        scoreBest = score;
+      options.score++;
+      if (options.score > options.scoreBest) {
+        options.scoreBest = options.score;
         updateMax();
       }
       updateScore();
@@ -154,98 +165,98 @@ const onTileClicked = tileClicked => {
         sequence.push(getRandomTile());
         sequenceToGuess = [...sequence];
         startFlashing();
-      }, timeNextSequence);
+      }, timers.timeNextSequence);
     }
-  } else if (!haveExtraLife) {
-    wrongSound.play();
+  } else if (!options.haveExtraLife) {
+    visuals.wrongSound.play();
     stopGame();
-    hint.innerHTML = textWrong;
-    hint.style.color = 'red';
+    elements.hint.innerHTML = visuals.textWrong;
+    elements.hint.style.color = 'red';
   } else {
-    revertSound.play();
+    visuals.revertSound.play();
     elements.page.classList.add('noclick');
     setTimeout(() => {
       sequenceToGuess = [...sequence];
       startFlashing();
-    }, timeFlashLifeStart);
-    haveExtraLife = false;
-    hadExtraLife = true;
+    }, timers.timeFlashLifeStart);
+    options.haveExtraLife = false;
+    options.hadExtraLife = true;
   }
 };
 
 function startGame() {
   createSequence();
   startFlashing();
-  inPlay = true;
-  hint.style.color = 'black';
-  hint.innerHTML = textStart;
-  options.stopBtn.classList.remove('hidden');
-  options.startBtn.classList.add('hidden');
-  options.rangeTiles.classList.add('hidden');
-  options.rangeSpeed.classList.add('hidden');
-  options.labelTiles.classList.add('hidden');
-  options.labelSpeed.classList.add('hidden');
-  options.labelCheckbox.classList.add('hidden');
-  options.speedIndicator.classList.add('hidden');
-  options.checkbox.classList.add('hidden');
+  options.inPlay = true;
+  elements.hint.style.color = 'black';
+  elements.hint.innerHTML = visuals.textStart;
+  interaction.stopBtn.classList.remove('hidden');
+  interaction.startBtn.classList.add('hidden');
+  interaction.rangeTiles.classList.add('hidden');
+  interaction.rangeSpeed.classList.add('hidden');
+  interaction.labelTiles.classList.add('hidden');
+  interaction.labelSpeed.classList.add('hidden');
+  interaction.labelCheckbox.classList.add('hidden');
+  interaction.speedIndicator.classList.add('hidden');
+  interaction.checkbox.classList.add('hidden');
 }
 
 function stopGame() {
-  inPlay = false;
-  score = 0;
+  options.inPlay = false;
+  options.score = 0;
   updateScore();
   sequence.splice(0);
-  hint.innerHTML = textStart;
-  bonus.classList.remove('bonusOn');
+  elements.hint.innerHTML = visuals.textStart;
+  elements.bonus.classList.remove('bonusOn');
   elements.page.classList.add('noclick');
-  options.stopBtn.classList.add('hidden');
-  options.startBtn.classList.remove('hidden');
-  options.rangeTiles.classList.remove('hidden');
-  options.rangeSpeed.classList.remove('hidden');
-  options.labelTiles.classList.remove('hidden');
-  options.labelSpeed.classList.remove('hidden');
-  options.labelCheckbox.classList.remove('hidden');
-  options.speedIndicator.classList.remove('hidden');
-  options.checkbox.classList.remove('hidden');
+  interaction.stopBtn.classList.add('hidden');
+  interaction.startBtn.classList.remove('hidden');
+  interaction.rangeTiles.classList.remove('hidden');
+  interaction.rangeSpeed.classList.remove('hidden');
+  interaction.labelTiles.classList.remove('hidden');
+  interaction.labelSpeed.classList.remove('hidden');
+  interaction.labelCheckbox.classList.remove('hidden');
+  interaction.speedIndicator.classList.remove('hidden');
+  interaction.checkbox.classList.remove('hidden');
 }
 
 function tilesSlider() {
-  const pink = document.querySelector('.pink');
-  const orange = document.querySelector('.orange');
   const range = document.getElementById('rangeTiles').value;
 
   if (range >= 5 && pink.classList.contains('hidden')) {
-    pink.classList.remove('hidden');
+    elements.pink.classList.remove('hidden');
     elements.tiles.push(pink);
   } else if (range < 5) {
     elements.tiles.splice(4, 1);
-    pink.classList.add('hidden');
+    elements.pink.classList.add('hidden');
   }
   if (range == 6) {
-    orange.classList.remove('hidden');
+    elements.orange.classList.remove('hidden');
     elements.tiles.push(orange);
   } else {
     elements.tiles.splice(5, 1);
-    orange.classList.add('hidden');
+    elements.orange.classList.add('hidden');
   }
 }
 
 function speedSlider() {
   const rangeSpeed = document.getElementById('rangeSpeed').value;
 
-  if (rangeSpeed > 1) timeNextTile = timeNextTileStart / rangeSpeed;
-  timeFlashLife = timeFlashLifeStart / rangeSpeed;
+  if (rangeSpeed > 1) {
+  timers.timeNextTile = timers.timeNextTileStart / rangeSpeed;
+  timers.timeFlashLife = timers.timeFlashLifeStart / rangeSpeed;
   document.getElementById('speed').innerHTML = rangeSpeed + 'x';
+  }
 }
 
 function isChecked() {
   if (document.getElementById('checkbox').checked) {
-    isBonusEnabled = true;
+    options.isBonusEnabled = true;
   }
 }
 
 function updateScore() {
-  document.getElementById('currentScore').innerHTML = score;
+  document.getElementById('currentScore').innerHTML = options.score;
 }
 
 function updateMax() {
