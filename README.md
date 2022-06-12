@@ -2,7 +2,7 @@
  <p align="center">
  <img width="800" height="252" src="https://user-images.githubusercontent.com/89909053/173233183-206ec697-8af7-4598-9d7c-ebaa758c4959.gif">
 </p>
-**ColorMemory** это игра на тренировку пямяти.
+ColorMemory это игра на тренировку пямяти.
 
 Запомните последовательность, а затем повторите ее что бы пройти дальше.
 
