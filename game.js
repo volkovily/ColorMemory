@@ -122,13 +122,13 @@ function getRandomBool() {
   }
 }
 
-const flash = tile => new Promise(resolve => {
+const flash = tile => new Promise((resolve, reject) => {
   const currentNote = tile.dataset.color;
   const noteSound = document.querySelector(`[data-sound='${currentNote}']`);
   noteSound.play();
-  tile.className += ' active';
+  tile.classList.add('active');
   setTimeout(() => {
-    tile.className = tile.className.replace(' active', '');
+    tile.classList.remove('active');
     setTimeout(() => {
       resolve();
     }, timers.timeNextTile);
@@ -153,17 +153,16 @@ const startFlashing = async () => {
 };
 
 const onTileClicked = tileClicked => {
-  if (!options.canClick) return;
   const expectedTile = sequenceToGuess.shift();
   if (expectedTile === tileClicked) {
     if (sequenceToGuess.length === 0) {
       options.score++;
+      updateScore();
+      elements.page.classList.add('noclick');
       if (options.score > options.scoreBest) {
         options.scoreBest = options.score;
         updateMax();
       }
-      updateScore();
-      elements.page.classList.add('noclick');
       setTimeout(() => {
         sequence.push(getRandomTile());
         sequenceToGuess = [...sequence];
@@ -226,7 +225,6 @@ function stopGame() {
 
 function tilesSlider() {
   const range = document.getElementById('rangeTiles').value;
-
   if (range >= 5 && pink.classList.contains('hidden')) {
     elements.pink.classList.remove('hidden');
     elements.tiles.push(pink);
@@ -245,7 +243,6 @@ function tilesSlider() {
 
 function speedSlider() {
   const rangeSpeed = document.getElementById('rangeSpeed').value;
-
   if (rangeSpeed > 0) {
   timers.timeNextTile = timers.timeNextTileStart / rangeSpeed;
   timers.timeFlashLife = timers.timeFlashLifeStart / rangeSpeed;
