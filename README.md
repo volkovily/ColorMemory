@@ -15,7 +15,7 @@ In the game you can:
 
 * enable the appearance of bonuses
 
-* change the game mode to "Acceleration", in which the game speeds up after each guess
+* change the game mode to "Speed-Up Mode", in which the game speeds up after each guess
 
  <p align="center">
  <img width="800" height="281" src="https://user-images.githubusercontent.com/89909053/173240071-c6782d34-bab3-4146-bced-5d049f542161.gif">
