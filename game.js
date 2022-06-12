@@ -10,20 +10,25 @@ class Elements {
     this.bonus = document.getElementById('bonusId');
     this.hint = document.getElementById('hint');
     this.tiles = [this.blue, this.red, this.green, this.yellow];
+    this.sequence = this.tiles;
+    this.sequenceToGuess = this.sequence;
   }
 }
 
 class Interaction {
   constructor() {
-   this.startBtn = document.getElementById('startBtn');
-   this.stopBtn = document.getElementById('stopBtn');
-   this.rangeTiles = document.getElementById('rangeTiles');
-   this.rangeSpeed = document.getElementById('rangeSpeed');
-   this.labelTiles = document.getElementById('labelTiles');
-   this.labelSpeed = document.getElementById('labelSpeed');
-   this.labelCheckbox = document.getElementById('labelCheckbox');
-   this.speedIndicator = document.getElementById('speed');
-   this.checkbox = document.getElementById('checkbox');
+    this.startBtn = document.getElementById('startBtn');
+    this.stopBtn = document.getElementById('stopBtn');
+    this.rangeTiles = document.getElementById('rangeTiles');
+    this.rangeSpeed = document.getElementById('rangeSpeed');
+    this.labelTiles = document.getElementById('labelTiles');
+    this.labelSpeed = document.getElementById('labelSpeed');
+    this.labelCheckboxBonus = document.getElementById('labelCheckboxBonus');
+    this.labelCheckboxSpeed = document.getElementById('labelCheckboxSpeed');
+    this.labelSpeed = document.getElementById('labelSpeed');
+    this.speedIndicator = document.getElementById('speed');
+    this.checkboxBonus = document.getElementById('checkboxBonuses');
+    this.checkboxSpeed = document.getElementById('checkboxSpeed');
   }
 }
 
@@ -59,32 +64,32 @@ const options = {
   hadExtraLife: false,
   isBonusEnabled: false,
   canGetBonus: true,
+  speedMode: false,
   score: 0,
   scoreBest: 0,
   maxBonusOffset: 95,
   minBonusOffset: 12,
   getBonusChance: 0.3,
+  speedModifier: 0.8,
 };
-
-
 
 const visuals = new Visuals();
 const elements = new Elements();
 const interaction = new Interaction();
 const timers = new Timers();
 
+function getRandomTile() {
+  const random = elements.tiles[parseInt(Math.random() * elements.tiles.length)];
+  return random;
+}
+
 function createSequence() {
-  sequence = [getRandomTile()];
-  sequenceToGuess = [...sequence];
+  elements.sequence = [getRandomTile()];
+  elements.sequenceToGuess = [...elements.sequence];
 }
 
 function playAudio(source) {
   new Audio(source).play();
-}
-
-function getRandomTile() {
-  const random = elements.tiles[parseInt(Math.random() * elements.tiles.length)];
-  return random;
 }
 
 function bonusStart(min, max) {
@@ -122,7 +127,7 @@ function getRandomBool() {
   }
 }
 
-const flash = tile => new Promise((resolve, reject) => {
+const flash = tile => new Promise(resolve => {
   const currentNote = tile.dataset.color;
   const noteSound = document.querySelector(`[data-sound='${currentNote}']`);
   noteSound.play();
@@ -138,7 +143,7 @@ const flash = tile => new Promise((resolve, reject) => {
 const startFlashing = async () => {
   elements.hint.innerHTML = visuals.textRemember;
   options.canClick = false;
-  for (const tile of sequence) {
+  for (const tile of elements.sequence) {
     await flash(tile);
   }
   getRandomBool();
@@ -153,9 +158,9 @@ const startFlashing = async () => {
 };
 
 const onTileClicked = tileClicked => {
-  const expectedTile = sequenceToGuess.shift();
+  const expectedTile = elements.sequenceToGuess.shift();
   if (expectedTile === tileClicked) {
-    if (sequenceToGuess.length === 0) {
+    if (elements.sequenceToGuess.length === 0) {
       options.score++;
       updateScore();
       elements.page.classList.add('noclick');
@@ -164,10 +169,14 @@ const onTileClicked = tileClicked => {
         updateMax();
       }
       setTimeout(() => {
-        sequence.push(getRandomTile());
-        sequenceToGuess = [...sequence];
+        elements.sequence.push(getRandomTile());
+        elements.sequenceToGuess = [...elements.sequence];
         startFlashing();
       }, timers.timeNextSequence);
+      if (options.speedMode) {
+        timers.timeNextTile *= options.speedModifier;
+        timers.timeFlashLife *= options.speedModifier;
+      }
     }
   } else if (!options.haveExtraLife) {
     visuals.wrongSound.play();
@@ -178,7 +187,7 @@ const onTileClicked = tileClicked => {
     visuals.revertSound.play();
     elements.page.classList.add('noclick');
     setTimeout(() => {
-      sequenceToGuess = [...sequence];
+      elements.sequenceToGuess = [...elements.sequence];
       startFlashing();
     }, timers.timeFlashLifeStart);
     options.haveExtraLife = false;
@@ -198,17 +207,21 @@ function startGame() {
   interaction.rangeSpeed.classList.add('hidden');
   interaction.labelTiles.classList.add('hidden');
   interaction.labelSpeed.classList.add('hidden');
-  interaction.labelCheckbox.classList.add('hidden');
+  interaction.labelCheckboxBonus.classList.add('hidden');
+  interaction.checkboxBonus.classList.add('hidden');
+  interaction.labelCheckboxSpeed.classList.add('hidden');
+  interaction.checkboxSpeed.classList.add('hidden');
   interaction.speedIndicator.classList.add('hidden');
-  interaction.checkbox.classList.add('hidden');
 }
 
 function stopGame() {
   options.inPlay = false;
   options.score = 0;
   options.haveExtraLife = false;
+  timers.timeNextTile = timers.timeNextTileStart;
+  timers.timeFlashLife = timers.timeFlashLifeStart;
   updateScore();
-  sequence.splice(0);
+  elements.sequence.splice(0);
   elements.hint.innerHTML = visuals.textStart;
   elements.bonus.classList.remove('bonusOn');
   elements.page.classList.add('noclick');
@@ -218,23 +231,25 @@ function stopGame() {
   interaction.rangeSpeed.classList.remove('hidden');
   interaction.labelTiles.classList.remove('hidden');
   interaction.labelSpeed.classList.remove('hidden');
-  interaction.labelCheckbox.classList.remove('hidden');
+  interaction.labelCheckboxBonus.classList.remove('hidden');
+  interaction.checkboxBonus.classList.remove('hidden');
+  interaction.labelCheckboxSpeed.classList.remove('hidden');
+  interaction.checkboxSpeed.classList.remove('hidden');
   interaction.speedIndicator.classList.remove('hidden');
-  interaction.checkbox.classList.remove('hidden');
 }
 
 function tilesSlider() {
   const range = document.getElementById('rangeTiles').value;
-  if (range >= 5 && pink.classList.contains('hidden')) {
+  if (range >= 5 && elements.pink.classList.contains('hidden')) {
     elements.pink.classList.remove('hidden');
-    elements.tiles.push(pink);
+    elements.tiles.push(elements.pink);
   } else if (range < 5) {
     elements.tiles.splice(4, 1);
     elements.pink.classList.add('hidden');
   }
   if (range == 6) {
     elements.orange.classList.remove('hidden');
-    elements.tiles.push(orange);
+    elements.tiles.push(elements.orange);
   } else {
     elements.tiles.splice(5, 1);
     elements.orange.classList.add('hidden');
@@ -244,15 +259,32 @@ function tilesSlider() {
 function speedSlider() {
   const rangeSpeed = document.getElementById('rangeSpeed').value;
   if (rangeSpeed > 0) {
-  timers.timeNextTile = timers.timeNextTileStart / rangeSpeed;
-  timers.timeFlashLife = timers.timeFlashLifeStart / rangeSpeed;
-  document.getElementById('speed').innerHTML = rangeSpeed + 'x';
+    timers.timeNextTile = timers.timeNextTileStart / rangeSpeed;
+    timers.timeFlashLife = timers.timeFlashLifeStart / rangeSpeed;
+    document.getElementById('speed').innerHTML = rangeSpeed + 'x';
   }
 }
 
-function isChecked() {
-  if (document.getElementById('checkbox').checked) {
+function isBonusesChecked() {
+  if (document.getElementById('checkboxBonuses').checked) {
     options.isBonusEnabled = true;
+  }
+}
+
+function isSpeedChecked() {
+  if (document.getElementById('checkboxSpeed').checked) {
+    options.speedMode = true;
+    interaction.speedIndicator.classList.add('hidden');
+    interaction.labelSpeed.classList.add('hidden');
+    interaction.rangeSpeed.classList.add('hidden');
+    timers.timeNextTile = timers.timeNextTileStart;
+    timers.timeFlashLife = timers.timeFlashLifeStart;
+  }
+  else {
+    options.speedMode = false;
+    interaction.speedIndicator.classList.remove('hidden');
+    interaction.labelSpeed.classList.remove('hidden');
+    interaction.rangeSpeed.classList.remove('hidden');
   }
 }
 
