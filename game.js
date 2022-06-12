@@ -36,6 +36,7 @@ class Visuals {
     this.textRemember = 'Remember the sequence!';
     this.textRepeat = 'Now repeat the sequence!';
     this.textWrong = 'Wrong tile! Start a new game to try again!';
+    this.textBonus = 'You got an extra life!';
   }
 }
 
@@ -62,6 +63,7 @@ const options = {
   scoreBest: 0,
   maxBonusOffset: 95,
   minBonusOffset: 12,
+  getBonusChance: 0.3,
 };
 
 
@@ -108,11 +110,12 @@ function onBonusClick() {
   options.haveExtraLife = true;
   visuals.bonusSound.play();
   elements.bonus.classList.remove('bonusOn');
+  elements.hint.innerHTML = visuals.textBonus;
 }
 
 function getRandomBool() {
   if (!options.canGetBonus) {
-    options.canGetBonus = Math.random() < 0.9;
+    options.canGetBonus = Math.random() < options.getBonusChance;
   } else if (options.canGetBonus && options.hadExtraLife) {
     options.canGetBonus = false;
     options.hadExtraLife = false;
@@ -204,6 +207,7 @@ function startGame() {
 function stopGame() {
   options.inPlay = false;
   options.score = 0;
+  options.haveExtraLife = false;
   updateScore();
   sequence.splice(0);
   elements.hint.innerHTML = visuals.textStart;
@@ -242,7 +246,7 @@ function tilesSlider() {
 function speedSlider() {
   const rangeSpeed = document.getElementById('rangeSpeed').value;
 
-  if (rangeSpeed > 1) {
+  if (rangeSpeed > 0) {
   timers.timeNextTile = timers.timeNextTileStart / rangeSpeed;
   timers.timeFlashLife = timers.timeFlashLifeStart / rangeSpeed;
   document.getElementById('speed').innerHTML = rangeSpeed + 'x';
