@@ -2,20 +2,20 @@
  <p align="center">
  <img width="800" height="252" src="https://user-images.githubusercontent.com/89909053/173233183-206ec697-8af7-4598-9d7c-ebaa758c4959.gif">
 </p>
-ColorMemory это игра на тренировку пямяти.
+ColorMemory is a memory training web game.
 
-Запомните последовательность, а затем повторите ее что бы пройти дальше.
+Remember the sequence, and then repeat it to go further.
 
-## Настройки
-В игре можно:
+## Settings
+In the game you can:
 
-* изменить количество плиток (макс. 6)
+* change number of tiles (max 6)
 
-* изменить скорость игры (макс. х10)
+* change game speed (max x10)
 
-* включить появление бонусов
+* enable the appearance of bonuses
 
-* изменить режим игры на "Ускорение", при котором игра ускоряется после каждого отгадывания
+* change the game mode to "Acceleration", in which the game speeds up after each guess
 
  <p align="center">
  <img width="800" height="281" src="https://user-images.githubusercontent.com/89909053/173240071-c6782d34-bab3-4146-bced-5d049f542161.gif">
