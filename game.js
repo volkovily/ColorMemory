@@ -127,6 +127,13 @@ function getRandomBool() {
   }
 }
 
+function speedUpGame() {
+  if (options.speedMode) {
+  timers.timeNextTile *= options.speedModifier;
+  timers.timeFlashLife *= options.speedModifier;
+  }
+}
+
 const flash = tile => new Promise(resolve => {
   const currentNote = tile.dataset.color;
   const noteSound = document.querySelector(`[data-sound='${currentNote}']`);
@@ -163,6 +170,7 @@ const onTileClicked = tileClicked => {
     if (elements.sequenceToGuess.length === 0) {
       options.score++;
       updateScore();
+      speedUpGame();
       elements.page.classList.add('noclick');
       if (options.score > options.scoreBest) {
         options.scoreBest = options.score;
@@ -173,10 +181,6 @@ const onTileClicked = tileClicked => {
         elements.sequenceToGuess = [...elements.sequence];
         startFlashing();
       }, timers.timeNextSequence);
-      if (options.speedMode) {
-        timers.timeNextTile *= options.speedModifier;
-        timers.timeFlashLife *= options.speedModifier;
-      }
     }
   } else if (!options.haveExtraLife) {
     visuals.wrongSound.play();
@@ -186,12 +190,12 @@ const onTileClicked = tileClicked => {
   } else {
     visuals.revertSound.play();
     elements.page.classList.add('noclick');
+    options.haveExtraLife = false;
+    options.hadExtraLife = true;
     setTimeout(() => {
       elements.sequenceToGuess = [...elements.sequence];
       startFlashing();
     }, timers.timeFlashLifeStart);
-    options.haveExtraLife = false;
-    options.hadExtraLife = true;
   }
 };
 
