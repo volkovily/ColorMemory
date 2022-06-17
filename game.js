@@ -244,14 +244,16 @@ function stopGame() {
 
 function tilesSlider() {
   const range = document.getElementById('rangeTiles').value;
-  if (range >= 5 && elements.pink.classList.contains('hidden')) {
+  const rangeValuePink = 5;
+  const rangeValueOrange = 6;
+  if (range >= rangeValuePink && elements.pink.classList.contains('hidden')) {
     elements.pink.classList.remove('hidden');
     elements.tiles.push(elements.pink);
-  } else if (range < 5) {
+  } else if (range < rangeValuePink) {
     elements.tiles.splice(4, 1);
     elements.pink.classList.add('hidden');
   }
-  if (range == 6) {
+  if (range == rangeValueOrange) {
     elements.orange.classList.remove('hidden');
     elements.tiles.push(elements.orange);
   } else {
@@ -262,7 +264,8 @@ function tilesSlider() {
 
 function speedSlider() {
   const rangeSpeed = document.getElementById('rangeSpeed').value;
-  if (rangeSpeed > 0) {
+  const startSpeed = 0;
+  if (rangeSpeed > startSpeed) {
     timers.timeNextTile = timers.timeNextTileStart / rangeSpeed;
     timers.timeFlashLife = timers.timeFlashLifeStart / rangeSpeed;
     document.getElementById('speed').innerHTML = rangeSpeed + 'x';
