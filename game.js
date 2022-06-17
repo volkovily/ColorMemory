@@ -73,6 +73,8 @@ const options = {
   speedModifier: 0.8,
 };
 
+let randomBoolean = false;
+
 const visuals = new Visuals();
 const elements = new Elements();
 const interaction = new Interaction();
@@ -90,6 +92,11 @@ function createSequence() {
 
 function playAudio(source) {
   new Audio(source).play();
+}
+
+function getRandomBool() {
+  randomBoolean = Math.random() < options.getBonusChance;
+  return randomBoolean;
 }
 
 function bonusStart(min, max) {
@@ -118,14 +125,16 @@ function onBonusClick() {
   elements.hint.innerHTML = visuals.textBonus;
 }
 
-function getRandomBool() {
+function AdjustBonusChance() {
+  options.canGetBonus = randomBoolean;
   if (!options.canGetBonus) {
-    options.canGetBonus = Math.random() < options.getBonusChance;
+    getRandomBool()
   } else if (options.canGetBonus && options.hadExtraLife) {
     options.canGetBonus = false;
     options.hadExtraLife = false;
   }
 }
+
 
 function speedUpGame() {
   if (options.speedMode) {
@@ -153,9 +162,10 @@ const startFlashing = async () => {
   for (const tile of elements.sequence) {
     await flash(tile);
   }
-  getRandomBool();
+  AdjustBonusChance();
+  console.log(options.canGetBonus)
   if (options.inPlay) {
-    if (options.score >= 4) {
+    if (options.score >= 1) {
       bonusAnimation();
     }
     elements.hint.innerHTML = visuals.textRepeat;
@@ -222,8 +232,6 @@ function stopGame() {
   options.inPlay = false;
   options.score = 0;
   options.haveExtraLife = false;
-  timers.timeNextTile = timers.timeNextTileStart;
-  timers.timeFlashLife = timers.timeFlashLifeStart;
   updateScore();
   elements.sequence.splice(0);
   elements.hint.innerHTML = visuals.textStart;
