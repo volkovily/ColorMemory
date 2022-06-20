@@ -128,7 +128,7 @@ function onBonusClick() {
 function AdjustBonusChance() {
   options.canGetBonus = randomBoolean;
   if (!options.canGetBonus) {
-    getRandomBool()
+    getRandomBool();
   } else if (options.canGetBonus && options.hadExtraLife) {
     options.canGetBonus = false;
     options.hadExtraLife = false;
@@ -138,12 +138,12 @@ function AdjustBonusChance() {
 
 function speedUpGame() {
   if (options.speedMode) {
-  timers.timeNextTile *= options.speedModifier;
-  timers.timeFlashLife *= options.speedModifier;
+    timers.timeNextTile *= options.speedModifier;
+    timers.timeFlashLife *= options.speedModifier;
   }
 }
 
-const flash = tile => new Promise(resolve => {
+const flash = (tile) => new Promise((resolve) => {
   const currentNote = tile.dataset.color;
   const noteSound = document.querySelector(`[data-sound='${currentNote}']`);
   noteSound.play();
@@ -163,9 +163,8 @@ const startFlashing = async () => {
     await flash(tile);
   }
   AdjustBonusChance();
-  console.log(options.canGetBonus)
   if (options.inPlay) {
-    if (options.score >= 1) {
+    if (options.score >= 4) {
       bonusAnimation();
     }
     elements.hint.innerHTML = visuals.textRepeat;
@@ -174,7 +173,7 @@ const startFlashing = async () => {
   }
 };
 
-const onTileClicked = tileClicked => {
+const onTileClicked = (tileClicked) => {
   const expectedTile = elements.sequenceToGuess.shift();
   if (expectedTile === tileClicked) {
     if (elements.sequenceToGuess.length === 0) {
@@ -193,21 +192,29 @@ const onTileClicked = tileClicked => {
       }, timers.timeNextSequence);
     }
   } else if (!options.haveExtraLife) {
-    visuals.wrongSound.play();
-    stopGame();
-    elements.hint.innerHTML = visuals.textWrong;
-    elements.hint.style.color = 'red';
+    endGame();
   } else {
-    visuals.revertSound.play();
-    elements.page.classList.add('noclick');
-    options.haveExtraLife = false;
-    options.hadExtraLife = true;
-    setTimeout(() => {
-      elements.sequenceToGuess = [...elements.sequence];
-      startFlashing();
-    }, timers.timeFlashLifeStart);
+    continueGame();
   }
 };
+
+function endGame() {
+  visuals.wrongSound.play();
+  stopGame();
+  elements.hint.innerHTML = visuals.textWrong;
+  elements.hint.style.color = 'red';
+}
+
+function continueGame() {
+  visuals.revertSound.play();
+  elements.page.classList.add('noclick');
+  options.haveExtraLife = false;
+  options.hadExtraLife = true;
+  setTimeout(() => {
+    elements.sequenceToGuess = [...elements.sequence];
+    startFlashing();
+  }, timers.timeFlashLifeStart);
+}
 
 function startGame() {
   createSequence();
@@ -294,8 +301,7 @@ function isSpeedChecked() {
     interaction.rangeSpeed.classList.add('hidden');
     timers.timeNextTile = timers.timeNextTileStart;
     timers.timeFlashLife = timers.timeFlashLifeStart;
-  }
-  else {
+  } else {
     options.speedMode = false;
     interaction.speedIndicator.classList.remove('hidden');
     interaction.labelSpeed.classList.remove('hidden');
