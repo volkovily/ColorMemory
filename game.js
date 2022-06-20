@@ -81,7 +81,8 @@ const interaction = new Interaction();
 const timers = new Timers();
 
 function getRandomTile() {
-  const random = elements.tiles[parseInt(Math.random() * elements.tiles.length)];
+  const random =
+    elements.tiles[parseInt(Math.random() * elements.tiles.length)];
   return random;
 }
 
@@ -100,7 +101,8 @@ function getRandomBool() {
 }
 
 function bonusStart(min, max) {
-  elements.bonus.style.left = Math.floor(Math.random() * (max - min + 1) + min) + '%';
+  elements.bonus.style.left =
+    Math.floor(Math.random() * (max - min + 1) + min) + '%';
 }
 
 const runBonusTimer = () => {
@@ -135,7 +137,6 @@ function AdjustBonusChance() {
   }
 }
 
-
 function speedUpGame() {
   if (options.speedMode) {
     timers.timeNextTile *= options.speedModifier;
@@ -143,18 +144,19 @@ function speedUpGame() {
   }
 }
 
-const flash = (tile) => new Promise((resolve) => {
-  const currentNote = tile.dataset.color;
-  const noteSound = document.querySelector(`[data-sound='${currentNote}']`);
-  noteSound.play();
-  tile.classList.add('active');
-  setTimeout(() => {
-    tile.classList.remove('active');
+const flash = (tile) =>
+  new Promise((resolve) => {
+    const currentNote = tile.dataset.color;
+    const noteSound = document.querySelector(`[data-sound='${currentNote}']`);
+    noteSound.play();
+    tile.classList.add('active');
     setTimeout(() => {
-      resolve();
-    }, timers.timeNextTile);
-  }, timers.timeFlashLife);
-});
+      tile.classList.remove('active');
+      setTimeout(() => {
+        resolve();
+      }, timers.timeNextTile);
+    }, timers.timeFlashLife);
+  });
 
 const startFlashing = async () => {
   elements.hint.innerHTML = visuals.textRemember;
