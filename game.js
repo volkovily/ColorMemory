@@ -1,4 +1,4 @@
-const gameObjects = {
+const gameElements = {
   blue: document.querySelector('.blue'),
   red: document.querySelector('.red'),
   green: document.querySelector('.green'),
@@ -8,9 +8,12 @@ const gameObjects = {
   page: document.querySelector('.noclick'),
   bonus: document.getElementById('bonusId'),
   hint: document.getElementById('hint'),
+  wrongSound: document.getElementById('wrongSound'),
+  bonusSound: document.getElementById('bonusSound'),
+  revertSound: document.getElementById('revertSound'),
 };
 
-const interaction = {
+const сontrollers = {
   startBtn: document.getElementById('startBtn'),
   stopBtn: document.getElementById('stopBtn'),
   settingsParts: document.querySelectorAll('.settings'),
@@ -18,10 +21,7 @@ const interaction = {
   item: [],
 };
 
-const visuals = {
-  wrongSound: document.getElementById('wrongSound'),
-  bonusSound: document.getElementById('bonusSound'),
-  revertSound: document.getElementById('revertSound'),
+const hints = {
   textStart: 'Click on the button to start the game!',
   textRemember: 'Remember the sequence!',
   textRepeat: 'Now repeat the sequence!',
@@ -56,30 +56,30 @@ const options = {
   speedModifier: 0.8,
 };
 
-class Elements {
+class ArrayOfTiles {
   constructor() {
     this.tiles = [
-      gameObjects.blue,
-      gameObjects.red,
-      gameObjects.green,
-      gameObjects.yellow,
+      gameElements.blue,
+      gameElements.red,
+      gameElements.green,
+      gameElements.yellow,
     ];
     this.sequence = this.tiles;
     this.sequenceToGuess = this.sequence;
   }
 }
 
-const elements = new Elements();
+const tilesArray = new ArrayOfTiles();
 
 function getRandomTile() {
   const random =
-    elements.tiles[parseInt(Math.random() * elements.tiles.length)];
+    tilesArray.tiles[parseInt(Math.random() * tilesArray.tiles.length)];
   return random;
 }
 
 function createSequence() {
-  elements.sequence = [getRandomTile()];
-  elements.sequenceToGuess = [...elements.sequence];
+  tilesArray.sequence = [getRandomTile()];
+  tilesArray.sequenceToGuess = [...tilesArray.sequence];
 }
 
 function playAudio(source) {
@@ -91,34 +91,34 @@ function getRandomBool() {
   return options.randomBoolean;
 }
 
-function bonusStart(min, max) {
-  gameObjects.bonus.style.left =
+function spawnBonus(min, max) {
+  gameElements.bonus.style.left =
     Math.floor(Math.random() * (max - min + 1) + min) + '%';
 }
 
 const runBonusTimer = () => {
   timers.bonusTimer = setTimeout(() => {
-    gameObjects.bonus.classList.remove('bonusOn');
+    gameElements.bonus.classList.remove('bonusOn');
   }, timers.timeBonusLife);
 };
 
 function bonusAnimation() {
   if (!options.haveExtraLife && options.canGetBonus && options.isBonusEnabled) {
-    bonusStart(options.minBonusOffset, options.maxBonusOffset);
+    spawnBonus(options.minBonusOffset, options.maxBonusOffset);
     clearTimeout(timers.bonusTimer);
-    gameObjects.bonus.classList.add('bonusOn');
+    gameElements.bonus.classList.add('bonusOn');
     runBonusTimer();
   }
 }
 
 function onBonusClick() {
   options.haveExtraLife = true;
-  visuals.bonusSound.play();
-  gameObjects.bonus.classList.remove('bonusOn');
-  gameObjects.hint.innerHTML = visuals.textBonus;
+  gameElements.bonusSound.play();
+  gameElements.bonus.classList.remove('bonusOn');
+  gameElements.hint.innerHTML = hints.textBonus;
 }
 
-function AdjustBonusChance() {
+function adjustBonusChance() {
   options.canGetBonus = options.randomBoolean;
   if (!options.canGetBonus) {
     getRandomBool();
@@ -150,37 +150,37 @@ const flash = (tile) =>
   });
 
 const startFlashing = async () => {
-  gameObjects.hint.innerHTML = visuals.textRemember;
+  gameElements.hint.innerHTML = hints.textRemember;
   options.canClick = false;
-  for (const tile of elements.sequence) {
+  for (const tile of tilesArray.sequence) {
     await flash(tile);
   }
-  AdjustBonusChance();
+  adjustBonusChance();
   if (options.inPlay) {
     if (options.score >= 4) {
       bonusAnimation();
     }
-    gameObjects.hint.innerHTML = visuals.textRepeat;
-    gameObjects.page.classList.remove('noclick');
+    gameElements.hint.innerHTML = hints.textRepeat;
+    gameElements.page.classList.remove('noclick');
     options.canClick = true;
   }
 };
 
 const onTileClicked = (tileClicked) => {
-  const expectedTile = elements.sequenceToGuess.shift();
+  const expectedTile = tilesArray.sequenceToGuess.shift();
   if (expectedTile === tileClicked) {
-    if (elements.sequenceToGuess.length === 0) {
+    if (tilesArray.sequenceToGuess.length === 0) {
       options.score++;
       updateScore();
       speedUpGame();
-      gameObjects.page.classList.add('noclick');
+      gameElements.page.classList.add('noclick');
       if (options.score > options.scoreBest) {
         options.scoreBest = options.score;
         updateMax();
       }
       setTimeout(() => {
-        elements.sequence.push(getRandomTile());
-        elements.sequenceToGuess = [...elements.sequence];
+        tilesArray.sequence.push(getRandomTile());
+        tilesArray.sequenceToGuess = [...tilesArray.sequence];
         startFlashing();
       }, timers.timeNextSequence);
     }
@@ -192,19 +192,19 @@ const onTileClicked = (tileClicked) => {
 };
 
 function endGame() {
-  visuals.wrongSound.play();
-  stopGame();
-  gameObjects.hint.innerHTML = visuals.textWrong;
-  gameObjects.hint.style.color = 'red';
+  gameElements.wrongSound.play();
+  resetGame();
+  gameElements.hint.innerHTML = hints.textWrong;
+  gameElements.hint.style.color = 'red';
 }
 
 function continueGame() {
-  visuals.revertSound.play();
-  gameObjects.page.classList.add('noclick');
+  gameElements.revertSound.play();
+  gameElements.page.classList.add('noclick');
   options.haveExtraLife = false;
   options.hadExtraLife = true;
   setTimeout(() => {
-    elements.sequenceToGuess = [...elements.sequence];
+    tilesArray.sequenceToGuess = [...tilesArray.sequence];
     startFlashing();
   }, timers.timeFlashLifeStart);
 }
@@ -213,51 +213,48 @@ function startGame() {
   createSequence();
   startFlashing();
   options.inPlay = true;
-  gameObjects.hint.style.color = 'black';
-  gameObjects.hint.innerHTML = visuals.textStart;
-  interaction.stopBtn.classList.remove('hidden');
-  interaction.startBtn.classList.add('hidden');
-  for (interaction.item of interaction.settingsParts) {
-    interaction.item.classList.add('hidden');
+  gameElements.hint.style.color = 'black';
+  gameElements.hint.innerHTML = hints.textStart;
+  сontrollers.stopBtn.classList.remove('hidden');
+  сontrollers.startBtn.classList.add('hidden');
+  for (сontrollers.item of сontrollers.settingsParts) {
+    сontrollers.item.classList.add('hidden');
   }
 }
 
-function stopGame() {
+function resetGame() {
   options.inPlay = false;
   options.score = 0;
   options.haveExtraLife = false;
   updateScore();
-  elements.sequence.splice(0);
-  gameObjects.hint.innerHTML = visuals.textStart;
-  gameObjects.bonus.classList.remove('bonusOn');
-  gameObjects.page.classList.add('noclick');
-  interaction.stopBtn.classList.add('hidden');
-  interaction.startBtn.classList.remove('hidden');
-  for (interaction.item of interaction.settingsParts) {
-    interaction.item.classList.remove('hidden');
+  tilesArray.sequence.splice(0);
+  gameElements.hint.innerHTML = hints.textStart;
+  gameElements.bonus.classList.remove('bonusOn');
+  gameElements.page.classList.add('noclick');
+  сontrollers.stopBtn.classList.add('hidden');
+  сontrollers.startBtn.classList.remove('hidden');
+  for (сontrollers.item of сontrollers.settingsParts) {
+    сontrollers.item.classList.remove('hidden');
   }
 }
 
 function tilesSlider() {
   const range = document.getElementById('rangeTiles').value;
-  const rangeValuePink = 5;
-  const rangeValueOrange = 6;
-  if (
-    range >= rangeValuePink &&
-    gameObjects.pink.classList.contains('hidden')
-  ) {
-    gameObjects.pink.classList.remove('hidden');
-    elements.tiles.push(gameObjects.pink);
-  } else if (range < rangeValuePink) {
-    elements.tiles.splice(4, 1);
-    gameObjects.pink.classList.add('hidden');
+  const pinkID = 5;
+  const orangeID = 6;
+  if (range >= pinkID && gameElements.pink.classList.contains('hidden')) {
+    gameElements.pink.classList.remove('hidden');
+    tilesArray.tiles.push(gameElements.pink);
+  } else if (range < pinkID) {
+    tilesArray.tiles.splice(4, 1);
+    gameElements.pink.classList.add('hidden');
   }
-  if (range == rangeValueOrange) {
-    gameObjects.orange.classList.remove('hidden');
-    elements.tiles.push(gameObjects.orange);
+  if (range == orangeID) {
+    gameElements.orange.classList.remove('hidden');
+    tilesArray.tiles.push(gameElements.orange);
   } else {
-    elements.tiles.splice(5, 1);
-    gameObjects.orange.classList.add('hidden');
+    tilesArray.tiles.splice(5, 1);
+    gameElements.orange.classList.add('hidden');
   }
 }
 
@@ -280,15 +277,15 @@ function isBonusesChecked() {
 function isSpeedChecked() {
   if (document.getElementById('checkboxSpeed').checked) {
     options.speedMode = true;
-    for (interaction.item of interaction.settingsSpeed) {
-      interaction.item.classList.add('hidden');
+    for (сontrollers.item of сontrollers.settingsSpeed) {
+      сontrollers.item.classList.add('hidden');
     }
     timers.timeNextTile = timers.timeNextTileStart;
     timers.timeFlashLife = timers.timeFlashLifeStart;
   } else {
     options.speedMode = false;
-    for (interaction.item of interaction.settingsSpeed) {
-      interaction.item.classList.remove('hidden');
+    for (сontrollers.item of сontrollers.settingsSpeed) {
+      сontrollers.item.classList.remove('hidden');
     }
   }
 }
