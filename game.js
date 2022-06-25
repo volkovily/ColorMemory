@@ -54,6 +54,7 @@ const options = {
   scoreBest: 0,
   maxBonusOffset: 95,
   minBonusOffset: 12,
+  scoreForBonus: 4,
   getBonusChance: 0.3,
   speedModifier: 0.8,
 };
@@ -159,7 +160,7 @@ const startFlashing = async () => {
   }
   adjustBonusChance();
   if (options.inPlay) {
-    if (options.score >= 4) {
+    if (options.score >= options.scoreForBonus) {
       bonusAnimation();
     }
     gameElements.hint.innerHTML = hints.textRepeat;
