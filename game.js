@@ -1,3 +1,5 @@
+'use strict';
+
 const gameElements = {
   blue: document.querySelector('.blue'),
   red: document.querySelector('.red'),
@@ -71,19 +73,19 @@ class ArrayOfTiles {
 
 const tilesArray = new ArrayOfTiles();
 
+function randomize(input) {
+  const rnd = parseInt(Math.random() * input);
+  return rnd;
+}
+
 function getRandomTile() {
-  const random =
-    tilesArray.tiles[parseInt(Math.random() * tilesArray.tiles.length)];
-  return random;
+  const randomArray = tilesArray.tiles[randomize(tilesArray.tiles.length)];
+  return randomArray;
 }
 
 function createSequence() {
   tilesArray.sequence = [getRandomTile()];
   tilesArray.sequenceToGuess = [...tilesArray.sequence];
-}
-
-function playAudio(source) {
-  new Audio(source).play();
 }
 
 function getRandomBool() {
@@ -92,8 +94,8 @@ function getRandomBool() {
 }
 
 function spawnBonus(min, max) {
-  gameElements.bonus.style.left =
-    Math.floor(Math.random() * (max - min + 1) + min) + '%';
+  const offset = max - min + 1 + min;
+  gameElements.bonus.style.left = randomize(offset) + '%';
 }
 
 const runBonusTimer = () => {
@@ -288,6 +290,10 @@ function isSpeedChecked() {
       сontrollers.item.classList.remove('hidden');
     }
   }
+}
+
+function playAudio(source) {
+  new Audio(source).play();
 }
 
 function updateScore() {
