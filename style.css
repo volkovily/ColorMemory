@@ -1,103 +1,110 @@
 .noscroll {
-    height: 100%;
-    overflow-y: hidden;
+  height: 100%;
+  overflow-y: hidden;
+}
+
+.noselect {
+  -webkit-user-drag: none;
+  user-select: none;
+}
+
+.settings {
+  -webkit-user-drag: none;
+}
+
+.settingsSpeed {
+  -webkit-user-drag: none;
+}
+
+@keyframes anim {
+  0% {
+    top: -6%;
   }
-  
-  .noselect {
-    -webkit-user-drag: none;
-    user-select: none;
+  100% {
+    top: 100%;
   }
-  
-  @keyframes anim {
-    0% {
-      top: -6%;
-    }
-    100% {
-      top: 100%;
-    }
-  }
-  
-  .bonus {
-    position: absolute;
-    width: 30px;
-    height: 30px;
-    left: 12%;
-    top: -20%;
-  }
-  
-  .bonusOn {
-    animation: anim 10s linear;
-  }
-  
-  .center {
-    text-align: center;
-  }
-  
-  .center_button {
-    position: absolute;
-    top: 32%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-  }
-  
-  .center_range {
-    position: absolute;
-    top: 35%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-  }
-  
-  .tile {
-    display: inline-block;
-    width: 100px;
-    height: 100px;
-    background-color: rgb(202, 202, 202);
-    box-shadow: rgba(0, 0, 0, 0.3) 0px 7px 10px -3px,
-      rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
-    cursor: pointer;
-  }
-  
-  .tile:hover {
-    box-shadow: inset 0px 0px 100px 100px rgba(255, 255, 255, 0.3);
-  }
-  
-  .noclick {
-    pointer-events: none;
-  }
-  
-  .blue {
-    background-color: blue;
-  }
-  
-  .red {
-    background-color: red;
-  }
-  
-  .green {
-    background-color: green;
-  }
-  
-  .yellow {
-    background-color: rgb(255, 234, 0);
-  }
-  
-  .pink {
-    background-color: rgb(255, 60, 216);
-  }
-  .orange {
-    background-color: orange;
-  }
-  
-  .hidden {
-    display: none;
-  }
-  
-  .active {
-    box-shadow: inset 0px 0px 100px 100px rgba(255, 255, 255, 0.4);
-  }
-  
-  .scores {
-    position: fixed;
-    text-align: left;
-  }
-  
+}
+
+.bonus {
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  left: 12%;
+  top: -20%;
+}
+
+.bonusOn {
+  animation: anim 10s linear;
+}
+
+.center {
+  text-align: center;
+}
+
+.center_button {
+  position: absolute;
+  top: 32%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.center_range {
+  position: absolute;
+  top: 35%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.tile {
+  display: inline-block;
+  width: 100px;
+  height: 100px;
+  background-color: rgb(202, 202, 202);
+  box-shadow: rgba(0, 0, 0, 0.3) 0px 7px 10px -3px,
+    rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+  cursor: pointer;
+}
+
+.tile:hover {
+  box-shadow: inset 0px 0px 100px 100px rgba(255, 255, 255, 0.3);
+}
+
+.noclick {
+  pointer-events: none;
+}
+
+.blue {
+  background-color: blue;
+}
+
+.red {
+  background-color: red;
+}
+
+.green {
+  background-color: green;
+}
+
+.yellow {
+  background-color: rgb(255, 234, 0);
+}
+
+.pink {
+  background-color: rgb(255, 60, 216);
+}
+.orange {
+  background-color: orange;
+}
+
+.hidden {
+  display: none;
+}
+
+.active {
+  box-shadow: inset 0px 0px 100px 100px rgba(255, 255, 255, 0.4);
+}
+
+.scores {
+  position: fixed;
+  text-align: left;
+}

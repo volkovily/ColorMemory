@@ -13,6 +13,9 @@ const gameObjects = {
 const interaction = {
   startBtn: document.getElementById('startBtn'),
   stopBtn: document.getElementById('stopBtn'),
+  settingsParts: document.querySelectorAll('.settings'),
+  settingsSpeed: document.querySelectorAll('.settingsSpeed'),
+  item: [],
 };
 
 const visuals = {
@@ -210,19 +213,13 @@ function startGame() {
   createSequence();
   startFlashing();
   options.inPlay = true;
-  elements.hint.style.color = 'black';
-  elements.hint.innerHTML = visuals.textStart;
+  gameObjects.hint.style.color = 'black';
+  gameObjects.hint.innerHTML = visuals.textStart;
   interaction.stopBtn.classList.remove('hidden');
   interaction.startBtn.classList.add('hidden');
-  interaction.rangeTiles.classList.add('hidden');
-  interaction.rangeSpeed.classList.add('hidden');
-  interaction.labelTiles.classList.add('hidden');
-  interaction.labelSpeed.classList.add('hidden');
-  interaction.labelCheckboxBonus.classList.add('hidden');
-  interaction.checkboxBonus.classList.add('hidden');
-  interaction.labelCheckboxSpeed.classList.add('hidden');
-  interaction.checkboxSpeed.classList.add('hidden');
-  interaction.speedIndicator.classList.add('hidden');
+  for (interaction.item of interaction.settingsParts) {
+    interaction.item.classList.add('hidden');
+  }
 }
 
 function stopGame() {
@@ -236,15 +233,9 @@ function stopGame() {
   gameObjects.page.classList.add('noclick');
   interaction.stopBtn.classList.add('hidden');
   interaction.startBtn.classList.remove('hidden');
-  interaction.rangeTiles.classList.remove('hidden');
-  interaction.rangeSpeed.classList.remove('hidden');
-  interaction.labelTiles.classList.remove('hidden');
-  interaction.labelSpeed.classList.remove('hidden');
-  interaction.labelCheckboxBonus.classList.remove('hidden');
-  interaction.checkboxBonus.classList.remove('hidden');
-  interaction.labelCheckboxSpeed.classList.remove('hidden');
-  interaction.checkboxSpeed.classList.remove('hidden');
-  interaction.speedIndicator.classList.remove('hidden');
+  for (interaction.item of interaction.settingsParts) {
+    interaction.item.classList.remove('hidden');
+  }
 }
 
 function tilesSlider() {
@@ -289,16 +280,16 @@ function isBonusesChecked() {
 function isSpeedChecked() {
   if (document.getElementById('checkboxSpeed').checked) {
     options.speedMode = true;
-    interaction.speedIndicator.classList.add('hidden');
-    interaction.labelSpeed.classList.add('hidden');
-    interaction.rangeSpeed.classList.add('hidden');
+    for (interaction.item of interaction.settingsSpeed) {
+      interaction.item.classList.add('hidden');
+    }
     timers.timeNextTile = timers.timeNextTileStart;
     timers.timeFlashLife = timers.timeFlashLifeStart;
   } else {
     options.speedMode = false;
-    interaction.speedIndicator.classList.remove('hidden');
-    interaction.labelSpeed.classList.remove('hidden');
-    interaction.rangeSpeed.classList.remove('hidden');
+    for (interaction.item of interaction.settingsSpeed) {
+      interaction.item.classList.remove('hidden');
+    }
   }
 }
 
