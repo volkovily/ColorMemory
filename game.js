@@ -42,7 +42,6 @@ const timers = {
 };
 
 const options = {
-  inPlay: false,
   canClick: false,
   haveExtraLife: false,
   hadExtraLife: false,
@@ -159,14 +158,12 @@ const startFlashing = async () => {
     await flash(tile);
   }
   adjustBonusChance();
-  if (options.inPlay) {
-    if (options.score >= options.scoreForBonus) {
-      bonusAnimation();
-    }
-    gameElements.hint.innerHTML = hints.textRepeat;
-    gameElements.page.classList.remove('noclick');
-    options.canClick = true;
+  if (options.score >= options.scoreForBonus) {
+    bonusAnimation();
   }
+  gameElements.hint.innerHTML = hints.textRepeat;
+  gameElements.page.classList.remove('noclick');
+  options.canClick = true;
 };
 
 const onTileClicked = (tileClicked) => {
@@ -215,7 +212,6 @@ function continueGame() {
 function startGame() {
   createSequence();
   startFlashing();
-  options.inPlay = true;
   gameElements.hint.style.color = 'black';
   gameElements.hint.innerHTML = hints.textStart;
   сontrollers.stopBtn.classList.remove('hidden');
@@ -226,7 +222,6 @@ function startGame() {
 }
 
 function resetGame() {
-  options.inPlay = false;
   options.score = 0;
   options.haveExtraLife = false;
   updateScore();
