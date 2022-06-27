@@ -172,12 +172,9 @@ const onTileClicked = (tileClicked) => {
     if (tilesArray.sequenceToGuess.length === 0) {
       options.score++;
       updateScore();
+      updateMaxScore();
       speedUpGame();
       gameElements.page.classList.add('noclick');
-      if (options.score > options.scoreBest) {
-        options.scoreBest = options.score;
-        updateMax();
-      }
       setTimeout(() => {
         tilesArray.sequence.push(getRandomTile());
         tilesArray.sequenceToGuess = [...tilesArray.sequence];
@@ -238,20 +235,21 @@ function resetGame() {
 
 function tilesSlider() {
   const range = document.getElementById('rangeTiles').value;
-  const pinkID = 5;
-  const orangeID = 6;
+  const pinkID = 4;
+  const orangeID = 5;
+  const elementsToRemove = 1;
   if (range >= pinkID && gameElements.pink.classList.contains('hidden')) {
     gameElements.pink.classList.remove('hidden');
     tilesArray.tiles.push(gameElements.pink);
   } else if (range < pinkID) {
-    tilesArray.tiles.splice(4, 1);
+    tilesArray.tiles.splice(pinkID, elementsToRemove);
     gameElements.pink.classList.add('hidden');
   }
   if (range == orangeID) {
     gameElements.orange.classList.remove('hidden');
     tilesArray.tiles.push(gameElements.orange);
   } else {
-    tilesArray.tiles.splice(5, 1);
+    tilesArray.tiles.splice(orangeID, elementsToRemove);
     gameElements.orange.classList.add('hidden');
   }
 }
@@ -296,6 +294,9 @@ function updateScore() {
   document.getElementById('currentScore').innerHTML = options.score;
 }
 
-function updateMax() {
-  document.getElementById('bestScore').innerHTML = options.scoreBest;
+function updateMaxScore() {
+  if (options.score > options.scoreBest) {
+    options.scoreBest = options.score;
+    document.getElementById('bestScore').innerHTML = options.scoreBest;
+  }
 }
